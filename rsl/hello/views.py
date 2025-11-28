@@ -6,3 +6,7 @@ from django.http import HttpResponse
 
 def index(request):
     return render(request, "index.html")
+
+
+def news(request):
+    return render(request, "/news/news1.html")
