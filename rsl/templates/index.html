@@ -1,192 +1,495 @@
-{% load static %}
-<!DOCTYPE HTML>
-<!--
-	Editorial by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>RSL project</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Центральная библиотека города</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+      body {
+        background-color: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
 
-				<!-- Main -->
-					<div id="main">
-						<div class="inner">
+      .container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
 
-							<!-- Header -->
-								<header id="header">
-									<a href="index.html" class="logo"><strong>Editorial</strong> by HTML5 UP</a>
-									<ul class="icons">
-										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-										<li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
-										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-										<li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
-									</ul>
-								</header>
+      /* Header styles */
+      header {
+        background: linear-gradient(135deg, #2c3e50, #4a6491);
+        color: white;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
 
-							<!-- Banner -->
-								<section id="banner">
-									<div class="content">
-										<header>
-											<h1>Hi, I’m Editorial<br />
-											by HTML5 UP</h1>
-											<p>A free and fully responsive site template</p>
-										</header>
-										<p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. Pellentesque sapien ac quam. Lorem ipsum dolor sit nullam.</p>
-										<ul class="actions">
-											<li><a href="#" class="button big">Learn More</a></li>
-										</ul>
-									</div>
-									<span class="image object">
-										<img src="{% static 'images/pic10.jpg' %}" alt="" />
-									</span>
-								</section>
+      header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
 
-							
-							<!-- Section -->
-								<section>
-									<header class="major">
-										<h2>Ipsum sed dolor</h2>
-									</header>
-									<div class="posts">
-										<article>
-											<a href="#" class="image"><img src="{% static 'images/pic01.jpg' %}" alt="" /></a>
-											<h3>Interdum aenean</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="{% static 'news/news1.html' %}"class="button">Читать полностью</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="{% static 'images/pic02.jpg' %}" alt="" /></a>
-											<h3>Nulla amet dolore</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="{% static 'images/pic03.jpg' %}" alt="" /></a>
-											<h3>Tempus ullamcorper</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="{% static 'images/pic04.jpg' %}" alt="" /></a>
-											<h3>Sed etiam facilis</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="{% static 'images/pic05.jpg' %}" alt="" /></a>
-											<h3>Feugiat lorem aenean</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="{% static 'images/pic06.jpg' %}" alt="" /></a>
-											<h3>Amet varius aliquam</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-									</div>
-								</section>
+      header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
 
-						</div>
-					</div>
+      /* Main content layout */
+      .main-content {
+        display: flex;
+        flex: 1;
+        padding: 20px;
+        gap: 20px;
+      }
 
-				<!-- Sidebar -->
-					<div id="sidebar">
-						<div class="inner">
+      /* Left sidebar - navigation */
+      .left-sidebar {
+        flex: 0 0 220px;
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      }
 
-							<!-- Search -->
-								<section id="search" class="alt">
-									<form method="post" action="#">
-										<input type="text" name="query" id="query" placeholder="Search" />
-									</form>
-								</section>
+      .left-sidebar h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #4a6491;
+        font-size: 1.4rem;
+      }
 
-							<!-- Menu -->
-									<nav id="menu">
-									<header class="major">
-										<h2>Menu</h2>
-									</header>
-									<ul>
-										<li><a href="index.html">Homepage</a></li>
-										<li><a href="generic.html">Generic</a></li>
-										<li><a href="elements.html">Elements</a></li>
-										<li>
-											<span class="opener">Submenu</span>
-											<ul>
-												<li><a href="#">Lorem Dolor</a></li>
-												<li><a href="#">Ipsum Adipiscing</a></li>
-												<li><a href="#">Tempus Magna</a></li>
-												<li><a href="#">Feugiat Veroeros</a></li>
-											</ul>
-										</li>
-										<li><a href="#">Etiam Dolore</a></li>
-										<li><a href="#">Adipiscing</a></li>
-										<li>
-											<span class="opener">Another Submenu</span>
-											<ul>
-												<li><a href="#">Lorem Dolor</a></li>
-												<li><a href="#">Ipsum Adipiscing</a></li>
-												<li><a href="#">Tempus Magna</a></li>
-												<li><a href="#">Feugiat Veroeros</a></li>
-											</ul>
-										</li>
-										<li><a href="#">Maximus Erat</a></li>
-										<li><a href="#">Sapien Mauris</a></li>
-										<li><a href="#">Amet Lacinia</a></li>
-									</ul>
-								</nav>
-							<!-- Section -->
-								<section>
-									<header class="major">
-										<h2>Get in touch</h2>
-									</header>
-									<p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-									<ul class="contact">
-										<li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
-										<li class="icon solid fa-phone">(000) 000-0000</li>
-										<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
-										Nashville, TN 00000-0000</li>
-									</ul>
-								</section>
+      .nav-links {
+        list-style: none;
+      }
 
-							<!-- Footer -->
-								<footer id="footer">
-									<p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-								</footer>
+      .nav-links li {
+        margin-bottom: 12px;
+      }
 
-						</div>
-					</div>
+      .nav-links a {
+        display: block;
+        padding: 12px 15px;
+        background-color: #f8f9fa;
+        color: #2c3e50;
+        text-decoration: none;
+        border-radius: 6px;
+        border-left: 4px solid #4a6491;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
 
-			</div>
+      .nav-links a:hover {
+        background-color: #4a6491;
+        color: white;
+        transform: translateX(5px);
+      }
 
-		<!-- Scripts -->
-			<script src={% static 'assets/js/jquery.min.js' %}></script>
-			<script src={% static 'assets/js/browser.min.js' % }></script>
-			<script src={% static 'assets/js/breakpoints.min.js' %}></script>
-			<script src={% static 'assets/js/util.js' %}></script>
-			<script src={% static 'assets/js/main.js' %}></script>
+      /* Center content - main info */
+      .center-content {
+        flex: 1;
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 25px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      }
 
-	</body>
+      .center-content h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #4a6491;
+        font-size: 1.8rem;
+      }
+
+      .welcome-text {
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+      }
+
+      .library-image {
+        width: 100%;
+        height: 300px;
+        background-color: #e9ecef;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.1),
+            rgba(0, 0, 0, 0.1)
+          ),
+          url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrzAy4YwUad97Uw6LBbP36YsfunhdYtOsoiA&s");
+        background-size: cover;
+        background-position: center;
+        color: white;
+        font-size: 2rem;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 25px;
+      }
+
+      .feature {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 4px solid #4a6491;
+      }
+
+      .feature h3 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      /* Right sidebar - news and banners */
+      .right-sidebar {
+        flex: 0 0 300px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .news-section {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      .news-section h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #4a6491;
+        font-size: 1.4rem;
+      }
+
+      .news-item {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .news-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+
+      .news-date {
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-bottom: 5px;
+      }
+
+      .news-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #2c3e50;
+      }
+
+      .banner {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        text-align: center;
+      }
+
+      .banner h3 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+      }
+
+      .banner-placeholder {
+        height: 150px;
+        background-color: #e9ecef;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+        font-weight: 500;
+      }
+
+      /* Footer styles */
+      footer {
+        background-color: #2c3e50;
+        color: white;
+        padding: 30px 20px;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer-section {
+        flex: 1;
+        min-width: 250px;
+        margin-bottom: 20px;
+        padding: 0 15px;
+      }
+
+      .footer-section h3 {
+        margin-bottom: 15px;
+        color: #4a6491;
+      }
+
+      .footer-section p,
+      .footer-section a {
+        color: #ddd;
+        margin-bottom: 10px;
+        font-size: 0.95rem;
+      }
+
+      .footer-section a {
+        text-decoration: none;
+        display: block;
+      }
+
+      .footer-section a:hover {
+        color: white;
+        text-decoration: underline;
+      }
+
+      .copyright {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #4a6491;
+        color: #aaa;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive design */
+      @media (max-width: 1100px) {
+        .main-content {
+          flex-wrap: wrap;
+        }
+
+        .left-sidebar {
+          flex: 0 0 200px;
+        }
+
+        .right-sidebar {
+          flex: 0 0 100%;
+          flex-direction: row;
+          margin-top: 20px;
+        }
+
+        .news-section,
+        .banner {
+          flex: 1;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .main-content {
+          flex-direction: column;
+        }
+
+        .left-sidebar,
+        .center-content,
+        .right-sidebar {
+          width: 100%;
+        }
+
+        .right-sidebar {
+          flex-direction: column;
+        }
+
+        .footer-content {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Центральная городская библиотека</h1>
+        <p>
+          Культурный и информационный центр города с более чем 100-летней
+          историей
+        </p>
+      </header>
+
+      <div class="main-content">
+        <!-- Левая колонка - навигация -->
+        <aside class="left-sidebar">
+          <h2>Разделы сайта</h2>
+          <ul class="nav-links">
+            <li><a href="#about">О библиотеке</a></li>
+            <li><a href="#poster">Афиша</a></li>
+            <li><a href="#e-library">Электронная библиотека</a></li>
+            <li><a href="#news">Новости</a></li>
+            <li><a href="#resources">Ресурсы</a></li>
+            <li><a href="#services">Услуги</a></li>
+            <li><a href="#local-history">Краеведение</a></li>
+            <li><a href="#vacancies">Вакансии</a></li>
+            <li><a href="#library-voice">Голос библиотеки</a></li>
+          </ul>
+        </aside>
+
+        <!-- Центральная колонка - основная информация -->
+        <main class="center-content">
+          <h2>Добро пожаловать в нашу библиотеку</h2>
+
+          <div class="welcome-text">
+            <p>
+              Мы рады приветствовать вас на сайте Центральной городской
+              библиотеки. Наше учреждение является не только хранилищем книг, но
+              и современным культурным центром, предлагающим разнообразные
+              услуги для всех категорий читателей.
+            </p>
+            <p>
+              В нашем фонде представлено более 500 000 изданий: книги, журналы,
+              газеты, аудиокниги и электронные ресурсы. Мы регулярно проводим
+              литературные вечера, встречи с писателями, мастер-классы и
+              выставки.
+            </p>
+          </div>
+
+          <div class="library-image">Читальный зал Центральной библиотеки</div>
+
+          <div class="features">
+            <div class="feature">
+              <h3>Часы работы</h3>
+              <p>Пн-Пт: 10:00 - 20:00</p>
+              <p>Сб-Вс: 11:00 - 18:00</p>
+            </div>
+            <div class="feature">
+              <h3>Контакты</h3>
+              <p>г. Москва, ул. Читательская, 15</p>
+              <p>тел: +7 (495) 123-45-67</p>
+              <p>email: info@library.ru</p>
+            </div>
+            <div class="feature">
+              <h3>Статистика</h3>
+              <p>Читателей: 25 000+</p>
+              <p>Книговыдача: 500 000+ в год</p>
+              <p>Мероприятий: 300+ в год</p>
+            </div>
+          </div>
+        </main>
+
+        <!-- Правая колонка - новости и баннеры -->
+        <aside class="right-sidebar">
+          <section class="news-section">
+            <h2>Последние новости</h2>
+
+            <div class="news-item">
+              <div class="news-date">15 октября 2023</div>
+              <div class="news-title">
+                <a href="{% url 'article_1' %}"
+                  >Новая коллекция электронных книг</a
+                >
+              </div>
+              <p>
+                Библиотека пополнила фонд электронных книг на 500 новых изданий.
+              </p>
+            </div>
+
+            <div class="news-item">
+              <div class="news-date">10 октября 2023</div>
+              <div class="news-title">
+                <a href="{% url 'article_2' %}"
+                  >Встреча с писателем А. Ивановым</a
+                >
+              </div>
+              <p>
+                25 октября в 18:00 состоится творческая встреча с известным
+                автором.
+              </p>
+            </div>
+
+            <div class="news-item">
+              <div class="news-date">5 октября 2023</div>
+              <div class="news-title">
+                <a href="{% url 'article_3' %}">Мастер-класс по каллиграфии</a>
+              </div>
+              <p>
+                Приглашаем всех желающих на бесплатный мастер-класс 20 октября.
+              </p>
+            </div>
+
+            <div class="news-item">
+              <div class="news-date">1 октября 2023</div>
+              <div class="news-title">
+                <a href="{% url 'article_4' %}">Ремонт читального зала</a>
+              </div>
+              <p>С 10 по 20 октября читальный зал №2 будет закрыт на ремонт.</p>
+            </div>
+          </section>
+
+          <div class="banner">
+            <h3>Присоединяйтесь к книжному клубу</h3>
+            <div class="banner-placeholder">
+              Баннер: Книжный клуб "Литературные вечера"
+            </div>
+          </div>
+
+          <div class="banner">
+            <h3>Электронный каталог</h3>
+            <div class="banner-placeholder">
+              Баннер: Поиск в электронном каталоге
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <footer>
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Контактная информация</h3>
+            <p>г. Москва, ул. Читательская, 15</p>
+            <p>тел: +7 (495) 123-45-67</p>
+            <p>email: info@library.ru</p>
+          </div>
+
+          <div class="footer-section">
+            <h3>Полезные ссылки</h3>
+            <a href="#about">О библиотеке</a>
+            <a href="#services">Услуги</a>
+            <a href="#resources">Ресурсы</a>
+            <a href="#news">Новости</a>
+          </div>
+
+          <div class="footer-section">
+            <h3>Социальные сети</h3>
+            <a href="#vk">ВКонтакте</a>
+            <a href="#telegram">Telegram</a>
+            <a href="#youtube">YouTube</a>
+            <a href="#instagram">Instagram</a>
+          </div>
+        </div>
+
+        <div class="copyright">
+          &copy; 2023 Центральная городская библиотека. Все права защищены.
+        </div>
+      </footer>
+    </div>
+  </body>
 </html>

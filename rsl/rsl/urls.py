@@ -19,4 +19,15 @@ from django.contrib import admin
 from django.urls import path
 from hello import views
 
-urlpatterns = [path("", views.index), path("admin/", admin.site.urls)]
+urlpatterns = [
+    path("", views.index),
+    path("admin/", admin.site.urls),
+    # Маршрут для news-1.html
+    path("article/1/", views.news_one, name="article_1"),
+    # Маршрут для news-2.html
+    path("article/2/", views.news_two, name="article_2"),
+    # Маршрут для news-3.html
+    path("article/3/", views.news_three, name="article_3"),
+    # Маршрут для news-4.html
+    path("article/4/", views.news_four, name="article_4"),
+]
