@@ -1,7 +1,6 @@
 from django.shortcuts import render
-
-# Create your views here.
 from django.http import HttpResponse
+from .models import Comment
 
 
 def index(request):
@@ -10,7 +9,8 @@ def index(request):
 
 def news_one(request):
     """Отображает шаблон news-1.html"""
-    return render(request, "news-1.html")
+    comments_list = Comment.objects.order_by("pub_date")
+    return render(request, "news-1.html", {"comments": comments_list})
 
 
 def news_two(request):
