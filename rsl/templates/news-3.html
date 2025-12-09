@@ -1,839 +1,900 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Мастер-класс по каллиграфии - Центральная библиотека</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .container {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        /* Header styles */
-        header {
-            background: linear-gradient(135deg, #2c3e50, #4a6491);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .back-link {
-            margin-top: 15px;
-        }
-        
-        .back-link a {
-            color: white;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        .back-link a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        /* Main content layout */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      /* Header styles */
+      header {
+        background: linear-gradient(135deg, #2c3e50, #4a6491);
+        color: white;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
+
+      .back-link {
+        margin-top: 15px;
+      }
+
+      .back-link a {
+        color: white;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        transition: background-color 0.3s;
+      }
+
+      .back-link a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      /* Main content layout */
+      .main-content {
+        display: flex;
+        flex: 1;
+        padding: 20px;
+        gap: 20px;
+      }
+
+      /* Left sidebar - navigation */
+      .left-sidebar {
+        flex: 0 0 220px;
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      .left-sidebar h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #4a6491;
+        font-size: 1.4rem;
+      }
+
+      .nav-links {
+        list-style: none;
+      }
+
+      .nav-links li {
+        margin-bottom: 12px;
+      }
+
+      .nav-links a {
+        display: block;
+        padding: 12px 15px;
+        background-color: #f8f9fa;
+        color: #2c3e50;
+        text-decoration: none;
+        border-radius: 6px;
+        border-left: 4px solid #4a6491;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .nav-links a:hover {
+        background-color: #4a6491;
+        color: white;
+        transform: translateX(5px);
+      }
+
+      /* Center content - news article */
+      .center-content {
+        flex: 1;
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      .news-header {
+        margin-bottom: 30px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+      }
+
+      .news-title {
+        color: #2c3e50;
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+        line-height: 1.3;
+      }
+
+      .news-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 20px;
+        color: #6c757d;
+        font-size: 0.95rem;
+      }
+
+      .news-meta span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .news-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .news-tag {
+        background-color: #e9ecef;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: #495057;
+      }
+
+      .news-image {
+        width: 100%;
+        height: 400px;
+        background-color: #e9ecef;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.1),
+            rgba(0, 0, 0, 0.1)
+          ),
+          url("https://images.unsplash.com/photo-1584917865447-4e13f1c129e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80");
+        background-size: cover;
+        background-position: center;
+        color: white;
+        font-size: 1.5rem;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+      }
+
+      .news-content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+      }
+
+      .news-content p {
+        margin-bottom: 20px;
+      }
+
+      .news-content h3 {
+        color: #2c3e50;
+        margin: 30px 0 15px;
+        font-size: 1.5rem;
+      }
+
+      .news-content ul,
+      .news-content ol {
+        margin-left: 20px;
+        margin-bottom: 20px;
+      }
+
+      .news-content li {
+        margin-bottom: 10px;
+      }
+
+      .workshop-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
+        margin: 30px 0;
+      }
+
+      .workshop-card {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        border-left: 4px solid #4a6491;
+      }
+
+      .workshop-card h3 {
+        margin-top: 0;
+        color: #2c3e50;
+        font-size: 1.3rem;
+      }
+
+      .materials-list {
+        background-color: #f8f9fa;
+        padding: 25px;
+        border-radius: 8px;
+        margin: 30px 0;
+      }
+
+      .materials-list h3 {
+        margin-top: 0;
+        color: #2c3e50;
+      }
+
+      .materials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+      }
+
+      .material-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        background-color: white;
+        border-radius: 6px;
+      }
+
+      .instructor-info {
+        display: flex;
+        gap: 20px;
+        margin: 40px 0;
+        padding: 25px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+      }
+
+      .instructor-photo {
+        flex: 0 0 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-color: #e9ecef;
+        overflow: hidden;
+        background-image: url("https://images.unsplash.com/photo-1544717305-99670f9c28f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .instructor-details {
+        flex: 1;
+      }
+
+      .instructor-details h3 {
+        margin-top: 0;
+        color: #2c3e50;
+      }
+
+      .registration-form {
+        background-color: #f8f9fa;
+        padding: 25px;
+        border-radius: 8px;
+        margin-top: 40px;
+      }
+
+      .registration-form h3 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-size: 1.3rem;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #495057;
+        font-weight: 500;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border 0.3s;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #4a6491;
+      }
+
+      .submit-btn {
+        background-color: #4a6491;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .submit-btn:hover {
+        background-color: #2c3e50;
+      }
+
+      .news-share {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+      }
+
+      .share-text {
+        font-weight: 500;
+        color: #2c3e50;
+      }
+
+      .share-icons {
+        display: flex;
+        gap: 10px;
+      }
+
+      .share-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .share-icon:hover {
+        background-color: #4a6491;
+        color: white;
+      }
+
+      /* Right sidebar - related news */
+      .right-sidebar {
+        flex: 0 0 300px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .related-news {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      .related-news h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #4a6491;
+        font-size: 1.4rem;
+      }
+
+      .related-item {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .related-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+
+      .related-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #2c3e50;
+        font-size: 1.05rem;
+      }
+
+      .related-date {
+        font-size: 0.85rem;
+        color: #6c757d;
+      }
+
+      .banner {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        text-align: center;
+      }
+
+      .banner h3 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+      }
+
+      .banner-placeholder {
+        height: 150px;
+        background-color: #e9ecef;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+        font-weight: 500;
+      }
+
+      /* Footer styles */
+      footer {
+        background-color: #2c3e50;
+        color: white;
+        padding: 30px 20px;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer-section {
+        flex: 1;
+        min-width: 250px;
+        margin-bottom: 20px;
+        padding: 0 15px;
+      }
+
+      .footer-section h3 {
+        margin-bottom: 15px;
+        color: #4a6491;
+      }
+
+      .footer-section p,
+      .footer-section a {
+        color: #ddd;
+        margin-bottom: 10px;
+        font-size: 0.95rem;
+      }
+
+      .footer-section a {
+        text-decoration: none;
+        display: block;
+      }
+
+      .footer-section a:hover {
+        color: white;
+        text-decoration: underline;
+      }
+
+      .copyright {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #4a6491;
+        color: #aaa;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive design */
+      @media (max-width: 1100px) {
         .main-content {
-            display: flex;
-            flex: 1;
-            padding: 20px;
-            gap: 20px;
+          flex-wrap: wrap;
         }
-        
-        /* Left sidebar - navigation */
+
         .left-sidebar {
-            flex: 0 0 220px;
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+          flex: 0 0 200px;
         }
-        
-        .left-sidebar h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #4a6491;
-            font-size: 1.4rem;
-        }
-        
-        .nav-links {
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin-bottom: 12px;
-        }
-        
-        .nav-links a {
-            display: block;
-            padding: 12px 15px;
-            background-color: #f8f9fa;
-            color: #2c3e50;
-            text-decoration: none;
-            border-radius: 6px;
-            border-left: 4px solid #4a6491;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .nav-links a:hover {
-            background-color: #4a6491;
-            color: white;
-            transform: translateX(5px);
-        }
-        
-        /* Center content - news article */
-        .center-content {
-            flex: 1;
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-        }
-        
-        .news-header {
-            margin-bottom: 30px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 20px;
-        }
-        
-        .news-title {
-            color: #2c3e50;
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-            line-height: 1.3;
-        }
-        
-        .news-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 20px;
-            color: #6c757d;
-            font-size: 0.95rem;
-        }
-        
-        .news-meta span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .news-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .news-tag {
-            background-color: #e9ecef;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            color: #495057;
-        }
-        
-        .news-image {
-            width: 100%;
-            height: 400px;
-            background-color: #e9ecef;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('https://images.unsplash.com/photo-1584917865447-4e13f1c129e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            font-size: 1.5rem;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-        }
-        
-        .news-content {
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-        
-        .news-content p {
-            margin-bottom: 20px;
-        }
-        
-        .news-content h3 {
-            color: #2c3e50;
-            margin: 30px 0 15px;
-            font-size: 1.5rem;
-        }
-        
-        .news-content ul, .news-content ol {
-            margin-left: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .news-content li {
-            margin-bottom: 10px;
-        }
-        
-        .workshop-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
-        }
-        
-        .workshop-card {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            border-left: 4px solid #4a6491;
-        }
-        
-        .workshop-card h3 {
-            margin-top: 0;
-            color: #2c3e50;
-            font-size: 1.3rem;
-        }
-        
-        .materials-list {
-            background-color: #f8f9fa;
-            padding: 25px;
-            border-radius: 8px;
-            margin: 30px 0;
-        }
-        
-        .materials-list h3 {
-            margin-top: 0;
-            color: #2c3e50;
-        }
-        
-        .materials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .material-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background-color: white;
-            border-radius: 6px;
-        }
-        
-        .instructor-info {
-            display: flex;
-            gap: 20px;
-            margin: 40px 0;
-            padding: 25px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        .instructor-photo {
-            flex: 0 0 120px;
-            height: 120px;
-            border-radius: 50%;
-            background-color: #e9ecef;
-            overflow: hidden;
-            background-image: url('https://images.unsplash.com/photo-1544717305-99670f9c28f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80');
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .instructor-details {
-            flex: 1;
-        }
-        
-        .instructor-details h3 {
-            margin-top: 0;
-            color: #2c3e50;
-        }
-        
-        .registration-form {
-            background-color: #f8f9fa;
-            padding: 25px;
-            border-radius: 8px;
-            margin-top: 40px;
-        }
-        
-        .registration-form h3 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #495057;
-            font-weight: 500;
-        }
-        
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: border 0.3s;
-        }
-        
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: #4a6491;
-        }
-        
-        .submit-btn {
-            background-color: #4a6491;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .submit-btn:hover {
-            background-color: #2c3e50;
-        }
-        
-        .news-share {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-        
-        .share-text {
-            font-weight: 500;
-            color: #2c3e50;
-        }
-        
-        .share-icons {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .share-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .share-icon:hover {
-            background-color: #4a6491;
-            color: white;
-        }
-        
-        /* Right sidebar - related news */
+
         .right-sidebar {
-            flex: 0 0 300px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+          flex: 0 0 100%;
+          flex-direction: row;
+          margin-top: 20px;
         }
-        
-        .related-news {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-        }
-        
-        .related-news h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #4a6491;
-            font-size: 1.4rem;
-        }
-        
-        .related-item {
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .related-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        
-        .related-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #2c3e50;
-            font-size: 1.05rem;
-        }
-        
-        .related-date {
-            font-size: 0.85rem;
-            color: #6c757d;
-        }
-        
+
+        .related-news,
         .banner {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            text-align: center;
+          flex: 1;
         }
-        
-        .banner h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
+      }
+
+      @media (max-width: 768px) {
+        .main-content {
+          flex-direction: column;
         }
-        
-        .banner-placeholder {
-            height: 150px;
-            background-color: #e9ecef;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #6c757d;
-            font-weight: 500;
+
+        .left-sidebar,
+        .center-content,
+        .right-sidebar {
+          width: 100%;
         }
-        
-        /* Footer styles */
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-            margin-top: 20px;
+
+        .right-sidebar {
+          flex-direction: column;
         }
-        
+
+        .news-title {
+          font-size: 1.8rem;
+        }
+
+        .news-image {
+          height: 250px;
+        }
+
+        .instructor-info {
+          flex-direction: column;
+        }
+
+        .instructor-photo {
+          align-self: center;
+        }
+
         .footer-content {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 0 auto;
+          flex-direction: column;
         }
-        
-        .footer-section {
-            flex: 1;
-            min-width: 250px;
-            margin-bottom: 20px;
-            padding: 0 15px;
-        }
-        
-        .footer-section h3 {
-            margin-bottom: 15px;
-            color: #4a6491;
-        }
-        
-        .footer-section p, .footer-section a {
-            color: #ddd;
-            margin-bottom: 10px;
-            font-size: 0.95rem;
-        }
-        
-        .footer-section a {
-            text-decoration: none;
-            display: block;
-        }
-        
-        .footer-section a:hover {
-            color: white;
-            text-decoration: underline;
-        }
-        
-        .copyright {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #4a6491;
-            color: #aaa;
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive design */
-        @media (max-width: 1100px) {
-            .main-content {
-                flex-wrap: wrap;
-            }
-            
-            .left-sidebar {
-                flex: 0 0 200px;
-            }
-            
-            .right-sidebar {
-                flex: 0 0 100%;
-                flex-direction: row;
-                margin-top: 20px;
-            }
-            
-            .related-news, .banner {
-                flex: 1;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-            }
-            
-            .left-sidebar, .center-content, .right-sidebar {
-                width: 100%;
-            }
-            
-            .right-sidebar {
-                flex-direction: column;
-            }
-            
-            .news-title {
-                font-size: 1.8rem;
-            }
-            
-            .news-image {
-                height: 250px;
-            }
-            
-            .instructor-info {
-                flex-direction: column;
-            }
-            
-            .instructor-photo {
-                align-self: center;
-            }
-            
-            .footer-content {
-                flex-direction: column;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <header>
-            <h1>Центральная городская библиотека</h1>
-            <p>Культурный и информационный центр города с более чем 100-летней историей</p>
-            <div class="back-link">
-                <a href="index.html">← Вернуться на главную</a>
-            </div>
-        </header>
-        
-        <div class="main-content">
-            <!-- Левая колонка - навигация -->
-            <aside class="left-sidebar">
-                <h2>Разделы сайта</h2>
-                <ul class="nav-links">
-                    <li><a href="#about">О библиотеке</a></li>
-                    <li><a href="#poster">Афиша</a></li>
-                    <li><a href="#e-library">Электронная библиотека</a></li>
-                    <li><a href="#news">Новости</a></li>
-                    <li><a href="#resources">Ресурсы</a></li>
-                    <li><a href="#services">Услуги</a></li>
-                    <li><a href="#local-history">Краеведение</a></li>
-                    <li><a href="#vacancies">Вакансии</a></li>
-                    <li><a href="#library-voice">Голос библиотеки</a></li>
-                </ul>
-            </aside>
-            
-            <!-- Центральная колонка - статья -->
-            <main class="center-content">
-                <div class="news-header">
-                    <h1 class="news-title">Бесплатный мастер-класс по искусству каллиграфии</h1>
-                    
-                    <div class="news-meta">
-                        <span>📅 5 октября 2023</span>
-                        <span>👁 189 просмотров</span>
-                        <span>📖 5 минут чтения</span>
-                        <span>👤 Автор: Андрей Кузнецов</span>
-                    </div>
-                    
-                    <div class="news-tags">
-                        <span class="news-tag">Мастер-класс</span>
-                        <span class="news-tag">Каллиграфия</span>
-                        <span class="news-tag">Творчество</span>
-                        <span class="news-tag">Обучение</span>
-                    </div>
-                </div>
-                
-                <div class="news-image">
-                    Искусство каллиграфии
-                </div>
-                
-                <div class="news-content">
-                    <p>Библиотека приглашает всех желающих на бесплатный мастер-класс по искусству каллиграфии, который пройдет 20 октября в 16:00. Это уникальная возможность прикоснуться к древнему искусству красивого письма и освоить базовые техники под руководством опытного мастера.</p>
-                    
-                    <p>Каллиграфия - это не просто умение красиво писать, это медитативная практика, развивающая концентрацию, терпение и творческое мышление. На мастер-классе вы познакомитесь с историей каллиграфии, основными инструментами и техниками, а также создадите свою первую работу.</p>
-                    
-                    <div class="workshop-details">
-                        <div class="workshop-card">
-                            <h3>Дата и время</h3>
-                            <p><strong>20 октября 2023</strong></p>
-                            <p>16:00 - 18:30</p>
-                            <p>Регистрация с 15:30</p>
-                        </div>
-                        
-                        <div class="workshop-card">
-                            <h3>Место проведения</h3>
-                            <p>Творческая мастерская библиотеки</p>
-                            <p>2 этаж, зал искусств</p>
-                            <p>Вместимость: 15 человек</p>
-                        </div>
-                        
-                        <div class="workshop-card">
-                            <h3>Условия участия</h3>
-                            <p>Бесплатно для всех</p>
-                            <p>Не требуется опыт</p>
-                            <p>Материалы предоставляются</p>
-                        </div>
-                    </div>
-                    
-                    <h3>Программа мастер-класса</h3>
-                    
-                    <ol>
-                        <li>Введение в историю каллиграфии (15 минут)</li>
-                        <li>Знакомство с инструментами: перья, тушь, бумага (20 минут)</li>
-                        <li>Основные штрихи и элементы букв (40 минут)</li>
-                        <li>Практика написания букв и простых слов (45 минут)</li>
-                        <li>Создание небольшой каллиграфической работы (30 минут)</li>
-                        <li>Ответы на вопросы и чаепитие (20 минут)</li>
-                    </ol>
-                    
-                    <div class="materials-list">
-                        <h3>Что предоставляется участникам:</h3>
-                        <div class="materials-grid">
-                            <div class="material-item">📝 Каллиграфические перья</div>
-                            <div class="material-item">🖋 Держатели для перьев</div>
-                            <div class="material-item">🫙 Тушь черная и цветная</div>
-                            <div class="material-item">📄 Специальная бумага</div>
-                            <div class="material-item">📏 Линейки и угольники</div>
-                            <div class="material-item">☕ Чай и угощения</div>
-                        </div>
-                    </div>
-                    
-                    <div class="instructor-info">
-                        <div class="instructor-photo"></div>
-                        <div class="instructor-details">
-                            <h3>Ведущий мастер-класса</h3>
-                            <p><strong>Ольга Смирнова</strong> - профессиональный каллиграф, член Ассоциации художников-каллиграфов России. Окончила Московскую государственную художественно-промышленную академию им. С.Г. Строганова. Участвовала в международных выставках каллиграфии, проводит мастер-классы более 7 лет.</p>
-                            <p>"Каллиграфия - это диалог между рукой, пером и бумагой. На моих занятиях я стараюсь передать не только технические навыки, но и то особое состояние сосредоточенности и гармонии, которое дарит это искусство", - говорит Ольга.</p>
-                        </div>
-                    </div>
-                    
-                    <h3>Для кого подойдет этот мастер-класс?</h3>
-                    
-                    <p>Мастер-класс рассчитан на начинающих и не требует никаких специальных навыков. Он будет интересен:</p>
-                    
-                    <ul>
-                        <li>Всем, кто хочет научиться красиво писать</li>
-                        <li>Дизайнерам и художникам, желающим расширить свои навыки</li>
-                        <li>Учителям и педагогам</li>
-                        <li>Тем, кто ищет новое хобби и способ творческого самовыражения</li>
-                        <li>Всем, кто хочет снять стресс через творческую практику</li>
-                    </ul>
-                    
-                    <p>По окончании мастер-класса каждый участник заберет с собой свою первую каллиграфическую работу и список ресурсов для самостоятельного изучения.</p>
-                    
-                    <div class="registration-form">
-                        <h3>Запись на мастер-класс</h3>
-                        <p>Количество мест ограничено! Зарегистрируйтесь, чтобы гарантировать свое участие.</p>
-                        <form id="workshopForm">
-                            <div class="form-group">
-                                <label for="ws-name">ФИО *</label>
-                                <input type="text" id="ws-name" name="name" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="ws-email">Email *</label>
-                                <input type="email" id="ws-email" name="email" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="ws-phone">Телефон *</label>
-                                <input type="tel" id="ws-phone" name="phone" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="ws-exp">Уровень опыта в каллиграфии</label>
-                                <select id="ws-exp" name="experience">
-                                    <option value="none">Нет опыта</option>
-                                    <option value="beginner">Начинающий</option>
-                                    <option value="intermediate">Средний</option>
-                                    <option value="advanced">Продвинутый</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="ws-comment">Комментарии или пожелания</label>
-                                <textarea id="ws-comment" name="comment" rows="3"></textarea>
-                            </div>
-                            
-                            <button type="submit" class="submit-btn">Записаться на мастер-класс</button>
-                        </form>
-                    </div>
-                </div>
-                
-                <div class="news-share">
-                    <span class="share-text">Поделиться новостью:</span>
-                    <div class="share-icons">
-                        <div class="share-icon">VK</div>
-                        <div class="share-icon">FB</div>
-                        <div class="share-icon">TW</div>
-                        <div class="share-icon">TG</div>
-                    </div>
-                </div>
-            </main>
-            
-            <!-- Правая колонка - похожие новости и баннеры -->
-            <aside class="right-sidebar">
-                <section class="related-news">
-                    <h2>Похожие новости</h2>
-                    
-                    <div class="related-item">
-                        <div class="related-title">Встреча с писателем А. Ивановым</div>
-                        <div class="related-date">10 октября 2023</div>
-                    </div>
-                    
-                    <div class="related-item">
-                        <div class="related-title">Новая коллекция электронных книг</div>
-                        <div class="related-date">15 октября 2023</div>
-                    </div>
-                    
-                    <div class="related-item">
-                        <div class="related-title">Курс леттеринга для начинающих</div>
-                        <div class="related-date">25 сентября 2023</div>
-                    </div>
-                    
-                    <div class="related-item">
-                        <div class="related-title">Мастер-класс по созданию книжных закладок</div>
-                        <div class="related-date">12 сентября 2023</div>
-                    </div>
-                    
-                    <div class="related-item">
-                        <div class="related-title">Клуб художников-иллюстраторов</div>
-                        <div class="related-date">30 августа 2023</div>
-                    </div>
-                </section>
-                
-                <div class="banner">
-                    <h3>Творческие мастерские</h3>
-                    <div class="banner-placeholder">
-                        Баннер: Расписание творческих занятий
-                    </div>
-                </div>
-                
-                <div class="banner">
-                    <h3>Книги по искусству</h3>
-                    <div class="banner-placeholder">
-                        Баннер: Подборка книг о каллиграфии
-                    </div>
-                </div>
-            </aside>
+      <header>
+        <h1>Центральная городская библиотека</h1>
+        <p>
+          Культурный и информационный центр города с более чем 100-летней
+          историей
+        </p>
+        <div class="back-link">
+          <a href='{% url "index" %}'>← Вернуться на главную</a>
         </div>
-        
-        <footer>
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Контактная информация</h3>
-                    <p>г. Москва, ул. Читательская, 15</p>
-                    <p>тел: +7 (495) 123-45-67</p>
-                    <p>email: info@library.ru</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Полезные ссылки</h3>
-                    <a href="#about">О библиотеке</a>
-                    <a href="#services">Услуги</a>
-                    <a href="#resources">Ресурсы</a>
-                    <a href="#news">Новости</a>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Социальные сети</h3>
-                    <a href="#vk">ВКонтакте</a>
-                    <a href="#telegram">Telegram</a>
-                    <a href="#youtube">YouTube</a>
-                    <a href="#instagram">Instagram</a>
-                </div>
+      </header>
+
+      <div class="main-content">
+        <!-- Левая колонка - навигация -->
+        <aside class="left-sidebar">
+          <h2>Разделы сайта</h2>
+          <ul class="nav-links">
+            <li><a href="#about">О библиотеке</a></li>
+            <li><a href="#poster">Афиша</a></li>
+            <li><a href="#e-library">Электронная библиотека</a></li>
+            <li><a href="#news">Новости</a></li>
+            <li><a href="#resources">Ресурсы</a></li>
+            <li><a href="#services">Услуги</a></li>
+            <li><a href="#local-history">Краеведение</a></li>
+            <li><a href="#vacancies">Вакансии</a></li>
+            <li><a href="#library-voice">Голос библиотеки</a></li>
+          </ul>
+        </aside>
+
+        <!-- Центральная колонка - статья -->
+        <main class="center-content">
+          <div class="news-header">
+            <h1 class="news-title">
+              Бесплатный мастер-класс по искусству каллиграфии
+            </h1>
+
+            <div class="news-meta">
+              <span>📅 5 октября 2023</span>
+              <span>👁 189 просмотров</span>
+              <span>📖 5 минут чтения</span>
+              <span>👤 Автор: Андрей Кузнецов</span>
             </div>
-            
-            <div class="copyright">
-                &copy; 2023 Центральная городская библиотека. Все права защищены.
+
+            <div class="news-tags">
+              <span class="news-tag">Мастер-класс</span>
+              <span class="news-tag">Каллиграфия</span>
+              <span class="news-tag">Творчество</span>
+              <span class="news-tag">Обучение</span>
             </div>
-        </footer>
+          </div>
+
+          <div class="news-image">Искусство каллиграфии</div>
+
+          <div class="news-content">
+            <p>
+              Библиотека приглашает всех желающих на бесплатный мастер-класс по
+              искусству каллиграфии, который пройдет 20 октября в 16:00. Это
+              уникальная возможность прикоснуться к древнему искусству красивого
+              письма и освоить базовые техники под руководством опытного
+              мастера.
+            </p>
+
+            <p>
+              Каллиграфия - это не просто умение красиво писать, это
+              медитативная практика, развивающая концентрацию, терпение и
+              творческое мышление. На мастер-классе вы познакомитесь с историей
+              каллиграфии, основными инструментами и техниками, а также
+              создадите свою первую работу.
+            </p>
+
+            <div class="workshop-details">
+              <div class="workshop-card">
+                <h3>Дата и время</h3>
+                <p><strong>20 октября 2023</strong></p>
+                <p>16:00 - 18:30</p>
+                <p>Регистрация с 15:30</p>
+              </div>
+
+              <div class="workshop-card">
+                <h3>Место проведения</h3>
+                <p>Творческая мастерская библиотеки</p>
+                <p>2 этаж, зал искусств</p>
+                <p>Вместимость: 15 человек</p>
+              </div>
+
+              <div class="workshop-card">
+                <h3>Условия участия</h3>
+                <p>Бесплатно для всех</p>
+                <p>Не требуется опыт</p>
+                <p>Материалы предоставляются</p>
+              </div>
+            </div>
+
+            <h3>Программа мастер-класса</h3>
+
+            <ol>
+              <li>Введение в историю каллиграфии (15 минут)</li>
+              <li>
+                Знакомство с инструментами: перья, тушь, бумага (20 минут)
+              </li>
+              <li>Основные штрихи и элементы букв (40 минут)</li>
+              <li>Практика написания букв и простых слов (45 минут)</li>
+              <li>Создание небольшой каллиграфической работы (30 минут)</li>
+              <li>Ответы на вопросы и чаепитие (20 минут)</li>
+            </ol>
+
+            <div class="materials-list">
+              <h3>Что предоставляется участникам:</h3>
+              <div class="materials-grid">
+                <div class="material-item">📝 Каллиграфические перья</div>
+                <div class="material-item">🖋 Держатели для перьев</div>
+                <div class="material-item">🫙 Тушь черная и цветная</div>
+                <div class="material-item">📄 Специальная бумага</div>
+                <div class="material-item">📏 Линейки и угольники</div>
+                <div class="material-item">☕ Чай и угощения</div>
+              </div>
+            </div>
+
+            <div class="instructor-info">
+              <div class="instructor-photo"></div>
+              <div class="instructor-details">
+                <h3>Ведущий мастер-класса</h3>
+                <p>
+                  <strong>Ольга Смирнова</strong> - профессиональный каллиграф,
+                  член Ассоциации художников-каллиграфов России. Окончила
+                  Московскую государственную художественно-промышленную академию
+                  им. С.Г. Строганова. Участвовала в международных выставках
+                  каллиграфии, проводит мастер-классы более 7 лет.
+                </p>
+                <p>
+                  "Каллиграфия - это диалог между рукой, пером и бумагой. На
+                  моих занятиях я стараюсь передать не только технические
+                  навыки, но и то особое состояние сосредоточенности и гармонии,
+                  которое дарит это искусство", - говорит Ольга.
+                </p>
+              </div>
+            </div>
+
+            <h3>Для кого подойдет этот мастер-класс?</h3>
+
+            <p>
+              Мастер-класс рассчитан на начинающих и не требует никаких
+              специальных навыков. Он будет интересен:
+            </p>
+
+            <ul>
+              <li>Всем, кто хочет научиться красиво писать</li>
+              <li>Дизайнерам и художникам, желающим расширить свои навыки</li>
+              <li>Учителям и педагогам</li>
+              <li>
+                Тем, кто ищет новое хобби и способ творческого самовыражения
+              </li>
+              <li>Всем, кто хочет снять стресс через творческую практику</li>
+            </ul>
+
+            <p>
+              По окончании мастер-класса каждый участник заберет с собой свою
+              первую каллиграфическую работу и список ресурсов для
+              самостоятельного изучения.
+            </p>
+
+            <div class="registration-form">
+              <h3>Запись на мастер-класс</h3>
+              <p>
+                Количество мест ограничено! Зарегистрируйтесь, чтобы
+                гарантировать свое участие.
+              </p>
+              <form id="workshopForm">
+                <div class="form-group">
+                  <label for="ws-name">ФИО *</label>
+                  <input type="text" id="ws-name" name="name" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="ws-email">Email *</label>
+                  <input type="email" id="ws-email" name="email" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="ws-phone">Телефон *</label>
+                  <input type="tel" id="ws-phone" name="phone" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="ws-exp">Уровень опыта в каллиграфии</label>
+                  <select id="ws-exp" name="experience">
+                    <option value="none">Нет опыта</option>
+                    <option value="beginner">Начинающий</option>
+                    <option value="intermediate">Средний</option>
+                    <option value="advanced">Продвинутый</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="ws-comment">Комментарии или пожелания</label>
+                  <textarea id="ws-comment" name="comment" rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                  Записаться на мастер-класс
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div class="news-share">
+            <span class="share-text">Поделиться новостью:</span>
+            <div class="share-icons">
+              <div class="share-icon">VK</div>
+              <div class="share-icon">FB</div>
+              <div class="share-icon">TW</div>
+              <div class="share-icon">TG</div>
+            </div>
+          </div>
+        </main>
+
+        <!-- Правая колонка - похожие новости и баннеры -->
+        <aside class="right-sidebar">
+          <section class="related-news">
+            <h2>Последние новости</h2>
+
+            <div class="related-item">
+              <div class="related-title">Встреча с писателем А. Ивановым</div>
+              <div class="related-date">10 октября 2023</div>
+            </div>
+
+            <div class="related-item">
+              <div class="related-title">Новая коллекция электронных книг</div>
+              <div class="related-date">15 октября 2023</div>
+            </div>
+
+            <div class="related-item">
+              <div class="related-title">Курс леттеринга для начинающих</div>
+              <div class="related-date">25 сентября 2023</div>
+            </div>
+
+            <div class="related-item">
+              <div class="related-title">
+                Мастер-класс по созданию книжных закладок
+              </div>
+              <div class="related-date">12 сентября 2023</div>
+            </div>
+
+            <div class="related-item">
+              <div class="related-title">Клуб художников-иллюстраторов</div>
+              <div class="related-date">30 августа 2023</div>
+            </div>
+          </section>
+
+          <div class="banner">
+            <h3>Творческие мастерские</h3>
+            <div class="banner-placeholder">
+              Баннер: Расписание творческих занятий
+            </div>
+          </div>
+
+          <div class="banner">
+            <h3>Книги по искусству</h3>
+            <div class="banner-placeholder">
+              Баннер: Подборка книг о каллиграфии
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <footer>
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Контактная информация</h3>
+            <p>г. Москва, ул. Читательская, 15</p>
+            <p>тел: +7 (495) 123-45-67</p>
+            <p>email: info@library.ru</p>
+          </div>
+
+          <div class="footer-section">
+            <h3>Полезные ссылки</h3>
+            <a href="#about">О библиотеке</a>
+            <a href="#services">Услуги</a>
+            <a href="#resources">Ресурсы</a>
+            <a href="#news">Новости</a>
+          </div>
+
+          <div class="footer-section">
+            <h3>Социальные сети</h3>
+            <a href="#vk">ВКонтакте</a>
+            <a href="#telegram">Telegram</a>
+            <a href="#youtube">YouTube</a>
+            <a href="#instagram">Instagram</a>
+          </div>
+        </div>
+
+        <div class="copyright">
+          &copy; 2023 Центральная городская библиотека. Все права защищены.
+        </div>
+      </footer>
     </div>
-    
+
     <script>
-        // Обработка формы записи на мастер-класс
-        document.getElementById('workshopForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Получаем данные из формы
-            const name = document.getElementById('ws-name').value;
-            const email = document.getElementById('ws-email').value;
-            const experience = document.getElementById('ws-exp').value;
-            
-            // Сообщения для разных уровней опыта
-            const expMessages = {
-                'none': 'Нет опыта',
-                'beginner': 'Начинающий',
-                'intermediate': 'Средний',
-                'advanced': 'Продвинутый'
-            };
-            
-            // В реальном приложении здесь был бы AJAX-запрос на сервер
-            alert(`Спасибо, ${name}! Вы успешно записаны на мастер-класс по каллиграфии.\n\nУровень опыта: ${expMessages[experience]}\nПодтверждение отправлено на ${email}.`);
-            
-            // Сбрасываем форму
-            this.reset();
+      // Обработка формы записи на мастер-класс
+      document
+        .getElementById("workshopForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Получаем данные из формы
+          const name = document.getElementById("ws-name").value;
+          const email = document.getElementById("ws-email").value;
+          const experience = document.getElementById("ws-exp").value;
+
+          // Сообщения для разных уровней опыта
+          const expMessages = {
+            none: "Нет опыта",
+            beginner: "Начинающий",
+            intermediate: "Средний",
+            advanced: "Продвинутый",
+          };
+
+          // В реальном приложении здесь был бы AJAX-запрос на сервер
+          alert(
+            `Спасибо, ${name}! Вы успешно записаны на мастер-класс по каллиграфии.\n\nУровень опыта: ${expMessages[experience]}\nПодтверждение отправлено на ${email}.`
+          );
+
+          // Сбрасываем форму
+          this.reset();
         });
     </script>
-</body>
+  </body>
 </html>

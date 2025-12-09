@@ -16,11 +16,11 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
 from hello import views
+from django.urls import include, path
 
 urlpatterns = [
-    path("", views.index),
+    path("", views.index, name="index"),
     path("admin/", admin.site.urls),
     # Маршрут для news-1.html
     path("article/1/", views.news_one, name="article_1"),

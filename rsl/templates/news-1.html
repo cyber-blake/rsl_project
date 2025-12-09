@@ -589,7 +589,7 @@
           историей
         </p>
         <div class="back-link">
-          <a href="index.html">← Вернуться на главную</a>
+          <a href='{% url "index" %}'>← Вернуться на главную</a>
         </div>
       </header>
 
@@ -704,6 +704,7 @@
           <!-- Секция комментариев -->
           <div class="comments-section">
             <h2 class="comments-title">Комментарии (3)</h2>
+            {% comment %} todo реальное кол-во комментов {% endcomment %}
 
             <!-- Форма для добавления комментария -->
             <div class="comment-form">
@@ -785,6 +786,7 @@
                                 <div class="author-info">
                                     <h4>Test Test</h4> 
                                     {{ comment.pub_date|timezone:"Europe/Moscow"|date:"j F Y, H:i" }}
+                                    {% comment %} todo склонение месяцев: декабря(а не декабрь)  {% endcomment %}
                                 </div>
                             </div>
                         </div>
@@ -803,7 +805,8 @@
         <!-- Правая колонка - похожие новости и баннеры -->
         <aside class="right-sidebar">
           <section class="related-news">
-            <h2>Похожие новости</h2>
+            <h2>Последние новости</h2> 
+            {% comment %} todo сделать выборку последних новостей {% endcomment %}
 
             <div class="related-item">
               <div class="related-title">Встреча с писателем А. Ивановым</div>
