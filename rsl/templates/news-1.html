@@ -703,7 +703,7 @@
 
           <!-- Секция комментариев -->
           <div class="comments-section">
-            <h2 class="comments-title">Комментарии (3)</h2>
+            <h2 class="comments-title">Комментарии ({{ comments|length }})</h2>
             {% comment %} todo реальное кол-во комментов {% endcomment %}
 
             <!-- Форма для добавления комментария -->
@@ -732,6 +732,7 @@
             </div>
 
             <!-- Список комментариев -->
+            {% block content %}
             <div class="comments-list">
               <!-- Комментарий 1 -->
               <div class="comment">
@@ -776,8 +777,8 @@
                 </div>
               </div>
 
-        {% block content %}
-            {% if comments %}
+        
+              {% if comments %}
                 {% for comment in comments %}
                     <div class="comment">
                         <div class="comment-header">
@@ -785,7 +786,8 @@
                                 <div class="author-avatar">ОК</div> 
                                 <div class="author-info">
                                     <h4>Test Test</h4> 
-                                    {{ comment.pub_date|timezone:"Europe/Moscow"|date:"j F Y, H:i" }}
+                                    <div class="comment-date">{{ comment.pub_date|timezone:"Europe/Moscow"|date:"j F Y, H:i" }}</div>
+                                    
                                     {% comment %} todo склонение месяцев: декабря(а не декабрь)  {% endcomment %}
                                 </div>
                             </div>
@@ -796,7 +798,6 @@
                         </div>
                     </div>
                     {% endfor %}
-
                 {% endif %}
         {% endblock content %}
         </main>
