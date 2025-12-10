@@ -734,48 +734,7 @@
             <!-- Список комментариев -->
             {% block content %}
             <div class="comments-list">
-              <!-- Комментарий 1 -->
-              <div class="comment">
-                <div class="comment-header">
-                  <div class="comment-author">
-                    <div class="author-avatar">АИ</div>
-                    <div class="author-info">
-                      <h4>Анна Иванова</h4>
-                      <div class="comment-date">17 октября 2023, 14:23</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="comment-text">
-                  Отличная новость! Очень ждала пополнения электронной
-                  коллекции. Особенно рада новым научно-популярным книгам. Уже
-                  нашла несколько интересных изданий по психологии. Спасибо
-                  библиотеке за развитие цифровых ресурсов!
-                </div>
-                <div class="comment-reply">
-                  <button class="reply-btn">Ответить</button>
-                </div>
-              </div>
 
-              <!-- Комментарий 2 -->
-              <div class="comment">
-                <div class="comment-header">
-                  <div class="comment-author">
-                    <div class="author-avatar">СС</div>
-                    <div class="author-info">
-                      <h4>Сергей Смирнов</h4>
-                      <div class="comment-date">16 октября 2023, 09:45</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="comment-text">
-                  Подскажите, пожалуйста, а книги в каком формате предлагаются?
-                  Есть ли поддержка Kindle? И можно ли будет читать на планшете
-                  без постоянного подключения к интернету?
-                </div>
-                <div class="comment-reply">
-                  <button class="reply-btn">Ответить</button>
-                </div>
-              </div>
 
         
               {% if comments %}
@@ -799,7 +758,7 @@
                     </div>
                     {% endfor %}
                 {% endif %}
-        {% endblock content %}
+            {% endblock content %}
         </main>
 
 
