@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Comment
+from .models import Comment, Article
 
 
 def index(request):
@@ -26,3 +26,9 @@ def news_three(request):
 def news_four(request):
     """Отображает шаблон news-4.html"""
     return render(request, "news-4.html")
+
+
+def news_base(request, id):
+    article = get_object_or_404(Article, id=id)
+    context = {"article": article}
+    return render(request, "news_page.html", context)
