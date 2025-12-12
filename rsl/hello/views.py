@@ -9,7 +9,7 @@ def index(request):
 
 def news_one(request):
     """Отображает шаблон news-1.html"""
-    comments_list = Comment.objects.order_by("pub_date")
+    comments_list = Comment.objects.order_by("pub_date")  # todo , when Article = news-1
     return render(request, "news-1.html", {"comments": comments_list})
 
 
