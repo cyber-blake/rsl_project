@@ -2,26 +2,6 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
-class Comment(models.Model):
-    """
-    Модель для хранения комментариев
-    """
-
-    commentText = models.TextField(verbose_name="Текст комментария")
-    pub_date = models.DateTimeField(_("Дата создания"), auto_now_add=True)
-    approved = models.BooleanField(
-        _("Одобрен"), default=False
-    )  # todo отображать комментарии if approved:
-
-    class Meta:
-        verbose_name = _("Комментарий")
-        verbose_name_plural = _("Комментарии")
-        ordering = ["-pub_date"]
-
-    def __str__(self):
-        return f'Комментарий "{self.commentText}"'
-
-
 class Article(models.Model):
     # Обязательные поля
     title = models.CharField(_("Заголовок"), max_length=200)
@@ -29,10 +9,8 @@ class Article(models.Model):
     body = models.TextField(_("Текст статьи"))
 
     # Поле для главного изображения (обложки статьи)
-    # upload_to='articles/' означает, что изображения будут храниться в
-    # папке 'media/articles/'
     main_image = models.ImageField(
-        _("Главное изображение"), upload_to="articles/", blank=True, null=True
+        _("Главное изображение"), upload_to="news_images", blank=True, null=True
     )
 
     pub_date = models.DateTimeField(_("Дата публикации"), auto_now_add=True)
@@ -44,6 +22,27 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    """
+    Модель для хранения комментариев
+    """
+
+    commentText = models.TextField(verbose_name="Текст комментария")
+    pub_date = models.DateTimeField(_("Дата создания"), auto_now_add=True)
+    approved = models.BooleanField(
+        _("Одобрен"), default=False
+    )  # todo отображать комментарии if approved:
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _("Комментарий")
+        verbose_name_plural = _("Комментарии")
+        ordering = ["-pub_date"]
+
+    def __str__(self):
+        return f'Комментарий "{self.commentText}"'
 
 
 # # --- Вариант для нескольких изображений (если нужно) ---
