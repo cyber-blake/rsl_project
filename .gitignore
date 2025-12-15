@@ -206,3 +206,8 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+rsl/media/
+rsl/hello/static/articles/wider-city-1.jpg
+rsl/articles/wider-city-1.jpg
+rsl/hello/static/articles/369018_doc1.jpg
+rsl/articles/wider-city-1.jpg

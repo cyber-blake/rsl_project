@@ -16,24 +16,24 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 # settings.py
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-        },
-    },
-    "loggers": {
-        "django.db.backends": {
-            "handlers": ["console"],
-            # Установите уровень DEBUG, чтобы видеть все SQL-запросы
-            "level": "DEBUG",
-            "propagate": False,
-        },
-    },
-}
+# todo раскомментить чтобы видеть все SQL-запросы
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "handlers": {
+#         "console": {
+#             "class": "logging.StreamHandler",
+#         },
+#     },
+#     "loggers": {
+#         "django.db.backends": {
+#             "handlers": ["console"],
+#             # Установите уровень DEBUG,
+#             "level": "DEBUG",
+#             "propagate": False,
+#         },
+#     },
+# }
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -41,7 +41,7 @@ LOGGING = {
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-*1l+fpxe&e+xkeusmu#jyn^2@g58ka54*c036#naq6n@&2$&ry"
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# todo SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -139,3 +139,7 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"

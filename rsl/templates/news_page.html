@@ -1,8 +1,13 @@
 {% extends "news_base.html" %}
-{% block title %}My amazing blog{% endblock %} 
-{% block content %}
-{% for article in articles %}
-    <h2>{{ article.title }}</h2>
-    <p>{{ article.body }}</p>
-{% endfor %}
+{% load static %}
+{% block title %}
+    <h1 class="news-title">{{ article.title }}</h1>
+{% endblock %}
+
+{% block image %}<img src="{{ article.image.url }}" alt="{{ article.title }}">
+{% endblock %}
+
+
+{% block body %}
+    <span>{{ article.body|linebreaks }}</span>
 {% endblock %}

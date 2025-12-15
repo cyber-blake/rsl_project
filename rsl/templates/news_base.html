@@ -44,23 +44,22 @@
         <!-- Центральная колонка - статья и комментарии -->
         <main class="center-content">
           <div class="news-header">
-            <h1 class="news-title">
-              NEWS TITLE
-            </h1>
-
-            <div class="news-meta">
+            <h1 class="news-title">{% block title %}news title{% endblock %}</h1>
+            {% comment %} todo image storing and show-ing {% endcomment %}
+            {% comment %} <div class="news-meta">
               <span>% DATE MONTH YEAR %</span>
               <span>% views count %</span>
               <span>% Author: author_name %</span>
-            </div>
+            </div> {% endcomment %}
           </div>
 
-          <div class="news-image">IMAGE OR PHOTO</div>
-
+          <div class="news-image">
+          {% block image %}
+          {% endblock image %}
+          </div>
           <div class="news-content">
-            <p>
-              text of novosti
-            </p>
+              {% block body %}
+              {% endblock %}
           </div>
 
           <div class="news-share">
@@ -127,7 +126,7 @@
                     </div>
                     {% endfor %}
                 {% endif %}
-            {% endblock content %}
+            {% endblock %}
         </main>
 
 
