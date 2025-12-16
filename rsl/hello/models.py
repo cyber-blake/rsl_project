@@ -35,6 +35,8 @@ class Comment(models.Model):
         _("Одобрен"), default=False
     )  # todo отображать комментарии if approved:
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    email = models.EmailField(_("Эл. почта"), max_length=254)
+    author = models.CharField(_("Автор комментария"), max_length=40)
 
     class Meta:
         verbose_name = _("Комментарий")
