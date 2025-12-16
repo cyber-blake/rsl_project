@@ -9,8 +9,7 @@ def index(request):
 
 def news_one(request):
     """Отображает шаблон news-1.html"""
-    comments_list = Comment.objects.order_by("pub_date")  # todo , when Article = news-1
-    return render(request, "news-1.html", {"comments": comments_list})
+    return render(request, "news-1.html")
 
 
 def news_two(request):
@@ -28,7 +27,8 @@ def news_four(request):
     return render(request, "news-4.html")
 
 
-def news_base(request, id):
+def news_page(request, id):
     article = get_object_or_404(Article, id=id)
-    context = {"article": article}
+    comments_list = Comment.objects.filter(article=article).order_by("pub_date")
+    context = {"article": article, "comments": comments_list}
     return render(request, "news_page.html", context)

@@ -33,7 +33,7 @@ urlpatterns = [
     # Маршрут для news-4.html
     path("article/4/", views.news_four, name="article_4"),
     # path("news/", include("news.urls")),
-    path("news/<int:id>/", views.news_base, name="news_detail"),
+    path("news/<int:id>/", views.news_page, name="news_detail"),
 ]
 
 if settings.DEBUG:
