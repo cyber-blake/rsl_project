@@ -35,7 +35,9 @@ class Comment(models.Model):
     approved = models.BooleanField(
         _("Одобрен"), default=False
     )  # todo отображать комментарии if approved:
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    article = models.ForeignKey(
+        Article, on_delete=models.CASCADE, related_name="comments"
+    )
     email = models.EmailField(_("Эл. почта"), max_length=254)
     author = models.CharField(_("Автор комментария"), max_length=40)
 

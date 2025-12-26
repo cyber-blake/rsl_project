@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Comment, Article
 from .forms import CommentForm
 from django.urls import reverse
+from .forms import CommentForm
 
 
 def index(request):
@@ -36,15 +37,45 @@ def news_page(request, id):
     return render(request, "news_page.html", context)
 
 
-def comment_create(request):
+# def comment_create(request, article_id):
+#     # 1. Получаем статью, к которой пишем коммент
+#     article = get_object_or_404(Article, id=article_id)
+
+#     if request.method == "POST":
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             comment = form.save(commit=False)
+#             comment.article = article  # Автоматически заполняем связь
+#             comment.save()
+#             # Можно добавить сообщение об успехе (messages.success)
+#             return redirect("article_detail", pk=article_id)
+#     else:
+#         form = CommentForm()
+
+#     # 2. Получаем только те комментарии, что относятся к ЭТОЙ статье
+#     comments = Comment.objects.filter(approved=True)
+
+#     return render(
+#         request,
+#         "comments/comment_form.html",
+#         {"form": form, "comments": comments, "article": article},
+#     )
+
+
+def get_name(request):
+    # if this is a POST request we need to process the form data
     if request.method == "POST":
+        # create a form instance and populate it with data from the request:
         form = CommentForm(request.POST)
+        # check whether it's valid:
         if form.is_valid():
-            form.save()
-            return redirect(reverse("comments:list"))
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect("/thanks/")
+
+    # if a GET (or any other method) we'll create a blank form
     else:
         form = CommentForm()
-    comments = Comment.objects.filter(approved=True)
-    return render(
-        request, "comments/comment_form.html", {"form": form, "comments": comments}
-    )
+
+    return render(request, "name.html", {"form": form})
