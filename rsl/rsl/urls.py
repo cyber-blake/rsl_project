@@ -34,7 +34,7 @@ urlpatterns = [
     path("article/4/", views.news_four, name="article_4"),
     # path("news/", include("news.urls")),
     path("news/<int:id>/", views.news_page, name="news_detail"),
-    path("post/", views.comment_create, name="create"),
+    path("post/", views.get_name, name="create"),
 ]
 
 if settings.DEBUG:
