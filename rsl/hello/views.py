@@ -32,47 +32,40 @@ def news_four(request):
 
 def news_page(request, id):
     article = get_object_or_404(Article, id=id)
-    comments_list = Comment.objects.filter(article=article).order_by("pub_date")
+    comments_list = Comment.objects.filter(approved=True, article=article).order_by(
+        "-pub_date"
+    )
     context = {"article": article, "comments": comments_list}
     return render(request, "news_page.html", context)
 
 
-# def comment_create(request, article_id):
-#     # 1. Получаем статью, к которой пишем коммент
-#     article = get_object_or_404(Article, id=article_id)
-
-#     if request.method == "POST":
-#         form = CommentForm(request.POST)
-#         if form.is_valid():
-#             comment = form.save(commit=False)
-#             comment.article = article  # Автоматически заполняем связь
-#             comment.save()
-#             # Можно добавить сообщение об успехе (messages.success)
-#             return redirect("article_detail", pk=article_id)
-#     else:
-#         form = CommentForm()
-
-#     # 2. Получаем только те комментарии, что относятся к ЭТОЙ статье
-#     comments = Comment.objects.filter(approved=True)
-
-#     return render(
-#         request,
-#         "comments/comment_form.html",
-#         {"form": form, "comments": comments, "article": article},
-#     )
+def get_latest_news(request):
+    latest_news_list = Article.objects.order_by("-pub_date")[:4]
+    context = {"latest_news_list": latest_news_list}
+    return render(request, "news_page.html", context)
 
 
-def get_name(request):
-    # if this is a POST request we need to process the form data
+def add_comment(request, article_id):
+    # 1. Находим пост в базе или выдаем 404, если его нет
+    article = get_object_or_404(Article, id=article_id)
+
     if request.method == "POST":
-        # create a form instance and populate it with data from the request:
+        # 2. Наполняем форму данными, которые прислал пользователь
         form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.save()
-            # Можно добавить сообщение об успехе (messages.success)
-            return redirect("article_detail", pk=id)
-    else:
-        form = CommentForm()
 
-    return render(request, "news_page.html", {"form": form})
+        # 3. Проверяем, всё ли заполнено корректно
+        if form.is_valid():
+            # 4. commit=False значит: "подготовь объект, но пока не сохраняй в базу"
+            comment = form.save(commit=False)
+
+            # 5. Привязываем комментарий к нашему посту
+            comment.post = article
+
+            # 6. Теперь сохраняем окончательно
+            comment.save()
+
+            # 7. Возвращаемся на страницу поста
+            return redirect("news_page.html", pk=article.id)
+
+    # Если метод GET (просто открыли страницу), форма будет пустой
+    return redirect("news_page.html", pk=article.id)

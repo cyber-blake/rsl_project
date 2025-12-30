@@ -1,0 +1,43 @@
+<!-- Правая колонка - похожие новости и баннеры -->
+        <aside class="right-sidebar">
+          <section class="related-news">
+            <h2>Последние новости</h2> 
+            {% comment %} todo сделать выборку последних новостей {% endcomment %}
+
+            <div class="related-item">
+              <div class="related-title">Встреча с писателем А. Ивановым</div>
+              <div class="related-date">10 октября 2023</div>
+            </div>
+
+            <div class="related-item">
+              <div class="related-title">
+                Обновление мобильного приложения библиотеки
+              </div>
+              <div class="related-date">28 сентября 2023</div>
+            </div>
+
+            <div class="related-item">
+              <div class="related-title">
+                Новые поступления в отдел редких книг
+              </div>
+              <div class="related-date">15 сентября 2023</div>
+            </div>
+
+            <div class="related-item">
+              <div class="related-title">
+                Бесплатные курсы компьютерной грамотности
+              </div>
+              <div class="related-date">5 сентября 2023</div>
+            </div>
+
+            <div class="related-item">
+              <div class="related-title">Открытие летнего читального зала в парке</div>
+              <div class="related-date">20 августа 2023</div>
+            </div>
+            {{% for item in items %}}
+            <div class="related-item">
+              <div class="related-title">{{item.title}}</div>
+              <div class="related-date">{{item.pub_date}}</div>
+            </div>
+            {% endfor %}
+          </section>
