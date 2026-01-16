@@ -7,7 +7,7 @@
 
 {% block image %}<img src="{{ article.image.url }}" alt="{{ article.title }}">
 {% endblock %}
-
+{% comment %} TODO это лишний файл, всё можно сделать в ньюс бейз (вроде и так удобно) {% endcomment %}
 
 {% block body %}
     <span>{{ article.body|linebreaks }}</span>
