@@ -30,12 +30,17 @@ def news_four(request):
     return render(request, "news-4.html")
 
 
-def news_page(request, id):
-    article = get_object_or_404(Article, id=id)
+def news_page(request, pk):
+    form = CommentForm()
+    article = get_object_or_404(Article, pk=pk)
     comments_list = Comment.objects.filter(approved=True, article=article).order_by(
         "-pub_date"
     )
-    context = {"article": article, "comments": comments_list}
+    context = {
+        "article": article,
+        "comments": comments_list,
+        "form": form,
+    }
     return render(request, "news_page.html", context)
 
 
@@ -45,27 +50,33 @@ def get_latest_news(request):
     return render(request, "news_page.html", context)
 
 
-def add_comment(request, article_id):
-    # 1. Находим пост в базе или выдаем 404, если его нет
-    article = get_object_or_404(Article, id=article_id)
+def add_comment(request, pk):  # снести найух функцию
+    article = get_object_or_404(Article, pk=pk)
 
     if request.method == "POST":
-        # 2. Наполняем форму данными, которые прислал пользователь
         form = CommentForm(request.POST)
-
-        # 3. Проверяем, всё ли заполнено корректно
+        print("VALID:", form.is_valid())
+        print("ERRORS:", form.errors)
         if form.is_valid():
-            # 4. commit=False значит: "подготовь объект, но пока не сохраняй в базу"
-            comment = form.save(commit=False)
+            Comment.objects.create(
+                article=article,
+                email=form.cleaned_data["email"],
+                commentText=form.cleaned_data["commentText"],
+                author=form.cleaned_data["author"],
+                # author=request.user if request.user.is_authenticated else None,
+            )
+            return redirect(request.path)
+        else:
+            comments_list = Comment.objects.filter(
+                approved=True, article=article
+            ).order_by("-pub_date")
+            # Если форма НЕ валидна, мы НЕ должны делать редирект!
+            # Мы должны отрендерить страницу статьи заново и передать туда форму с ошибками.
+            context = {
+                "article": article,
+                "form": form,
+                "comments": comments_list,
+            }
+            return redirect(request.path)
 
-            # 5. Привязываем комментарий к нашему посту
-            comment.post = article
-
-            # 6. Теперь сохраняем окончательно
-            comment.save()
-
-            # 7. Возвращаемся на страницу поста
-            return redirect("news_page.html", pk=article.id)
-
-    # Если метод GET (просто открыли страницу), форма будет пустой
-    return redirect("news_page.html", pk=article.id)
+    return redirect("news_page.html", pk=pk)

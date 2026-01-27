@@ -33,9 +33,11 @@ urlpatterns = [
     # Маршрут для news-4.html
     path("article/4/", views.news_four, name="article_4"),
     # path("news/", include("news.urls")),
-    path("news/<int:id>/", views.news_page, name="news_detail"),
-    # path("post/", views.get_name, name="create"),
-    path("news/<int:id>/comment/", views.add_comment, name="add_comment"),
+    path(
+        "news/<int:pk>/", views.news_page, name="news_page"
+    ),  # как минимум функция и вью одноименные
+    # структура полное говно, нужно всё переделать, привести к единому виду и стилю - и во views, в urls, совместить News_page + news_base
+    path("news/<int:pk>/add-comment/", views.add_comment, name="add_comment"),
 ]
 
 if settings.DEBUG:
