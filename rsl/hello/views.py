@@ -10,6 +10,7 @@ def index(request):
     return render(request, "index.html")
 
 
+# пробные 4 страницы с шаблонами оформления, пока пусть будут
 def news_one(request):
     """Отображает шаблон news-1.html"""
     return render(request, "news-1.html")
@@ -50,7 +51,7 @@ def get_latest_news(request):
     return render(request, "news_page.html", context)
 
 
-def add_comment(request, pk):  # снести найух функцию
+def add_comment(request, pk):
     article = get_object_or_404(Article, pk=pk)
 
     if request.method == "POST":
@@ -65,8 +66,9 @@ def add_comment(request, pk):  # снести найух функцию
                 author=form.cleaned_data["author"],
                 # author=request.user if request.user.is_authenticated else None,
             )
-            return redirect(request.path)
+            return redirect(reverse("news_page", kwargs={"pk": pk}))
         else:
+            print("ERRORS:", form.errors)
             comments_list = Comment.objects.filter(
                 approved=True, article=article
             ).order_by("-pub_date")
@@ -77,6 +79,4 @@ def add_comment(request, pk):  # снести найух функцию
                 "form": form,
                 "comments": comments_list,
             }
-            return redirect(request.path)
-
-    return redirect("news_page.html", pk=pk)
+            return redirect(reverse("news_page", kwargs={"pk": pk}))
