@@ -79,13 +79,13 @@
               <p><a href="news/1">Новость 1</a></p>
               <p><a href="news/2">Новость 2</a></p>
               <p><a href="news/3">Новость 3</a></p>
-  
             </div>
             
+            
             <div class="feature">
-              <h3>Forms</h3>
+              <h3>пробная форма</h3>
               <form action="/your-name/" method="post">
-                <label for="your_name">Your name: </label>
+                <label for="your_name">Your name:</label>
                 <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
                 <input type="submit" value="Отправить">
               </form>
@@ -94,7 +94,7 @@
             <div class="feature">
               <h3>Авторизация</h3>
               <p>Вы не авторизованы!</p>
-              <p><a href="auth">Войти</a></p>
+              <p><a href="{% url 'login' %}">Войти</a></p>
             </div>
             
           </div>

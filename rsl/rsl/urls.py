@@ -20,6 +20,7 @@ from hello import views
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
+from authorization import urls
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -36,6 +37,7 @@ urlpatterns = [
     path(
         "news/<int:pk>/", views.news_page, name="news_page"
     ),  # как минимум функция и вью одноименные
+    path("auth/", include("authorization.urls")),
     # структура полное говно, нужно всё переделать, привести к единому виду и стилю - и во views, в urls, совместить News_page + news_base
     path("news/<int:pk>/add-comment/", views.add_comment, name="add_comment"),
 ]

@@ -2,26 +2,27 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.view import View
+from django.views import View
 from django.contrib.auth.models import User
-from .forms import RegisterForm
+from .forms import RegisterUserForm
+from django.contrib.auth.views import LoginView, LogoutView
 
 
 def register_view(request):
     if request.method == "POST":
-        form = RegisterForm(request.POST)
+        form = RegisterUserForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-            user = User.objects.create_user(username=username, password=password)
-            login(request, user)
-            return redirect("home")
-        else:
-            form = RegisterForm()
-            return render(request, "accounts/register.html", {"form": form})
+            user = form.save()
+            login(request, user)  # ⬅️ сразу логиним после регистрации
+            return redirect("index")
+    else:
+        form = RegisterUserForm()
+
+    return render(request, "registration/register.html", {"form": form})
 
 
 def login_view(request):
+    err_message = None
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -45,12 +46,9 @@ def logout_view(request):
 
 @login_required
 def home_view(request):
-    return render(request, "home")
+    return render(request, "index.html")
 
 
 class ProtectedView(LoginRequiredMixin, View):
-    login_url = "/login/"
-    redirect_field_name = "redirect_to"
-
     def get(self, request):
         return render(request, "registration/protected.html")

@@ -3,7 +3,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Comment, Article
 from .forms import CommentForm
 from django.urls import reverse
-from .forms import CommentForm
 
 
 def index(request):
@@ -45,10 +44,10 @@ def news_page(request, pk):
     return render(request, "news_page.html", context)
 
 
-def get_latest_news(request):
-    latest_news_list = Article.objects.order_by("-pub_date")[:4]
-    context = {"latest_news_list": latest_news_list}
-    return render(request, "news_page.html", context)
+# def get_latest_news(request):
+#     latest_news_list = Article.objects.order_by("-pub_date")[:4]
+#     context = {"latest_news_list": latest_news_list}
+#     return render(request, "news_page.html", context)
 
 
 def add_comment(request, pk):

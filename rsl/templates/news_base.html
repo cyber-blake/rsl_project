@@ -755,10 +755,13 @@
           <div class="comments-section">
           <h2 class="comments-title">Комментарии ({{ comments|length }})</h2>
           <!-- Форма для добавления комментария -->
-          <div class="comment-form">
-            <h3>Оставьте ваш комментарий</h3>
+          
+          {% if user.is_authenticated %} 
+          {% comment %} показываем форму комментирования если юзер залогинен {% endcomment %}
+            <div class="comment-form">
+            <h3>Оставьте ваш комментарий, {{ user }}</h3>
             <form method="post" action="{% url 'add_comment' article.pk %}">
-          {% csrf_token %}
+                {% csrf_token %}
               <div class="form-group">
                 <label for="name">Имя *</label>
                 <input type="text" id="name" name="author" required>
@@ -777,6 +780,9 @@
               <button type="submit" class="submit-btn">Отправить комментарий</button>
             </form>
         </div>
+          {% endif %}
+            
+          
             <!-- Список комментариев -->
             <div class="comments-list">
               {% if comments %}
