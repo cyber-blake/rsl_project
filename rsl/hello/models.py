@@ -32,9 +32,7 @@ class Comment(models.Model):
 
     commentText = models.TextField(verbose_name="Текст комментария")
     pub_date = models.DateTimeField(_("Дата создания"), auto_now_add=True)
-    approved = models.BooleanField(
-        _("Одобрен"), default=False
-    )  # todo отображать комментарии if approved:
+    approved = models.BooleanField(_("Одобрен"), default=False)
     article = models.ForeignKey(
         Article, on_delete=models.CASCADE, related_name="comments"
     )
