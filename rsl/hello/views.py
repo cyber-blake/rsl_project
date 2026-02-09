@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Comment, Article
 from .forms import CommentForm
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 
 
 def index(request):
@@ -77,5 +78,16 @@ def add_comment(request, pk):
                 "article": article,
                 "form": form,
                 "comments": comments_list,
-            }
-            return redirect(reverse("news_page", kwargs={"pk": pk}))
+            },
+        )
+
+    # защита от прямого GET-запроса
+    return redirect("news_page", pk=pk)
+
+
+@require_POST
+def delete_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.approved = False
+    comment.save(update_fields=["approved"])
+    return redirect("news_page", pk=comment.article.pk)
