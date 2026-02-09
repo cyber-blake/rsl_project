@@ -56,27 +56,28 @@ def add_comment(request, pk):
 
     if request.method == "POST":
         form = CommentForm(request.POST)
-        print("VALID:", form.is_valid())
-        print("ERRORS:", form.errors)
+
         if form.is_valid():
             Comment.objects.create(
                 article=article,
                 email=form.cleaned_data["email"],
                 commentText=form.cleaned_data["commentText"],
                 author=form.cleaned_data["author"],
-                # author=request.user if request.user.is_authenticated else None,
             )
-            return redirect(reverse("news_page", kwargs={"pk": pk}))
-        else:
-            print("ERRORS:", form.errors)
-            comments_list = Comment.objects.filter(
-                approved=True, article=article
-            ).order_by("-pub_date")
-            # Если форма НЕ валидна, мы НЕ должны делать редирект!
-            # Мы должны отрендерить страницу статьи заново и передать туда форму с ошибками.
-            context = {
+            # ✅ редирект ТОЛЬКО при успехе
+            return redirect("news_page", pk=pk)
+
+        # ❗ форма невалидна → render, а не redirect
+        comments_list = Comment.objects.filter(approved=True, article=article).order_by(
+            "-pub_date"
+        )
+
+        return render(
+            request,
+            "news_page.html",
+            {
                 "article": article,
-                "form": form,
+                "form": form,  # форма с ошибками
                 "comments": comments_list,
             },
         )
