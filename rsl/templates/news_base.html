@@ -762,11 +762,7 @@
             <h3>Оставьте ваш комментарий, {{ user }}</h3>
             <form method="post" action="{% url 'add_comment' article.pk %}">
                 {% csrf_token %}
-              <div class="form-group">
-                <label for="name">Имя *</label>
-                <input type="text" id="name" name="author" required>
-              </div>
-
+              <input type="hidden" name="author" value="{{ user.username }}">
               <div class="form-group">
                 <label for="email">Email *</label>
                 <input type="email" id="email" name="email" required>

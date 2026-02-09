@@ -91,11 +91,26 @@
               </form>
             </div>
 
+            
+            {% if user.is_authenticated %}
+            <div class="feature">
+              <h3>Мой профиль</h3>
+              <p></p>
+              <p><a href="{% url 'profile' %}">Перейти в профиль</a></p>
+              <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                  {% csrf_token %}
+                  <button type="submit">Выйти</button>
+              </form>
+            </div>
+            {% else %}
             <div class="feature">
               <h3>Авторизация</h3>
               <p>Вы не авторизованы!</p>
               <p><a href="{% url 'login' %}">Войти</a></p>
             </div>
+            {% endif %}
+                     
+            
             
           </div>
         </main>
