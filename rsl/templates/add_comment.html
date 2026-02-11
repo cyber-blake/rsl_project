@@ -1,7 +1,7 @@
-{% load static %}
+{% comment %} {% load static %}
 {% block add_comment %}
 <form action="/your-name/" method="post">
   {% csrf_token %} {{ form }}
   <input type="submit" value="Submit" />
 </form>
-{% endblock add_comment %}
+{% endblock add_comment %} {% endcomment %}
