@@ -733,10 +733,16 @@
             {% comment %} todo image storing and show-ing {% endcomment %}
           </div>
 
-          {% comment %} <div class="news-image">
-          {% block image %}
-          {% endblock image %}
-          </div> {% endcomment %}
+         <div class="news-image">
+          <picture>
+            <source srcset="{{ article.image.webp.url }}" type="image/webp">
+            <img
+              src="{{ article.image.preview.url }}"
+              loading="lazy"
+              alt="{{ article.title }}"
+            >
+          </picture>
+          </div>
           <div class="news-content">
               {% block body %}
               {% endblock %}

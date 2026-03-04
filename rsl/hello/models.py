@@ -8,6 +8,9 @@ class Article(models.Model):
     title = models.CharField(_("Заголовок"), max_length=200)
     slug = models.SlugField(_("Слаг"), max_length=200, unique=True)
     body = models.TextField(_("Текст статьи"))
+    image = models.ForeignKey(
+        "images.Image", on_delete=models.SET_NULL, null=True, blank=True
+    )
 
     # Поле для главного изображения (обложки статьи)
     main_image = models.ImageField(
