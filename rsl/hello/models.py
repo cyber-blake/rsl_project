@@ -9,9 +9,12 @@ class Article(models.Model):
     slug = models.SlugField(_("Слаг"), max_length=200, unique=True)
     body = models.TextField(_("Текст статьи"))
     image = models.ForeignKey(
-        "images.Image", on_delete=models.SET_NULL, null=True, blank=True
+        "images.Image",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="articles",
     )
-
     # Поле для главного изображения (обложки статьи)
     main_image = models.ImageField(
         _("Главное изображение"), upload_to="news_images", blank=True, null=True
