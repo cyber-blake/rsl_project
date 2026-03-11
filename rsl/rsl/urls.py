@@ -16,11 +16,11 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from hello import views
+from helloApp import views
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
-from authorization import urls
+from authorizationApp import urls
 
 urlpatterns = [
     path("", views.index, name="index"),

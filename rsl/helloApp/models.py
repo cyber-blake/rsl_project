@@ -7,6 +7,7 @@ class Article(models.Model):
     # Обязательные поля
     title = models.CharField(_("Заголовок"), max_length=200)
     slug = models.SlugField(_("Слаг"), max_length=200, unique=True)
+    # todo сделать автоматическое заполнение слага
     body = models.TextField(_("Текст статьи"))
     image = models.ForeignKey(
         "images.Image",
