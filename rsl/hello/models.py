@@ -49,6 +49,9 @@ class Comment(models.Model):
         User, on_delete=models.CASCADE, related_name="comments", max_length=40
     )
 
+    def can_edit(self, user):
+        return user == self.author
+
     class Meta:
         verbose_name = _("Комментарий")
         verbose_name_plural = _("Комментарии")
