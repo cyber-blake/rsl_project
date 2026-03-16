@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 import uuid
+from django.contrib.auth.models import User
 
 
 class Article(models.Model):
@@ -43,7 +44,10 @@ class Comment(models.Model):
         Article, on_delete=models.CASCADE, related_name="comments"
     )
     email = models.EmailField(_("Эл. почта"), max_length=254)
-    author = models.CharField(_("Автор комментария"), max_length=40)
+    # author = models.CharField(_("Автор комментария"), max_length=40)
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="comments", max_length=40
+    )
 
     class Meta:
         verbose_name = _("Комментарий")
