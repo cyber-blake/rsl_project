@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="{% static 'hello/css/styles.css' %}">
-    <title>Новая коллекция электронных книг - Центральная библиотека</title>
+    <title>{{ article.title }}</title>
     <style>
       * {
         margin: 0;
@@ -27,6 +27,12 @@
         min-height: 100vh;
         max-width: 1400px;
         margin: 0 auto;
+      }
+      .news-image img{
+          width:100%;
+          height:400px;
+          object-fit:cover;
+          border-radius:8px;
       }
 
       /* Header styles */
@@ -691,7 +697,7 @@
         color: #2c3e50;
       }
 
-    </style>
+    </style> 
   </head>
   <body>
     {% comment %} todo Исправить удаление комментов только юзера {% endcomment %}
@@ -733,10 +739,11 @@
             {% comment %} todo image storing and show-ing {% endcomment %}
           </div>
 
-          {% comment %} <div class="news-image">
-          {% block image %}
-          {% endblock image %}
-          </div> {% endcomment %}
+         <div class="news-image">
+              {% if article.main_image %}
+                  <img src="{{ article.main_image.url }}" alt="{{ article.title }}">
+              {% endif %}
+          </div>
           <div class="news-content">
               {% block body %}
               {% endblock %}
