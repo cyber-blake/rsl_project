@@ -806,7 +806,7 @@
                             <button class="reply-btn">Ответить</button>
                         </div>
                         {% if user.is_authenticated %}
-                          {% if comment.author == user.username %}
+                          {% if comment.author == user %}
                       <form method="post" action="{% url 'delete_comment' comment.id %}">
                           {% csrf_token %}
                           <button type="submit">Удалить</button>
