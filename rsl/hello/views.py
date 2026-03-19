@@ -18,10 +18,19 @@ def news_page(request, pk):
     comments_list = Comment.objects.filter(approved=True, article=article).order_by(
         "-pub_date"
     )
+    edit_id = request.GET.get("edit")
+    edit_comment = None
+    edit_form = None
+    if edit_id:
+        edit_comment = get_object_or_404(Comment, pk=edit_id)
+        if request.user == edit_comment.author:
+            edit_form = CommentEditForm(instance=edit_comment)
     context = {
         "article": article,
         "comments": comments_list,
         "form": form,
+        "edit_comment": edit_comment,
+        "edit_form": edit_form,
     }
     return render(request, "base.html", context)
 
