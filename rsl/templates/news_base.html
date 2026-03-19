@@ -789,33 +789,47 @@
           
             <!-- Список комментариев -->
             <div class="comments-list">
-              {% if comments %}
-                {% for comment in comments %}
-                    <div class="comment">
-                        <div class="comment-header">
-                            <div class="comment-author">
-                                <div class="author-info">
-                                    <h4>{{comment.author}}</h4> 
-                                    <div class="comment-date">{{ comment.pub_date|timezone:"Europe/Moscow"|date:"j F Y, H:i" }}</div>
-                                    {% comment %} todo склонение месяцев: декабря(а не декабрь)  {% endcomment %}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comment-text">{{ comment.commentText }}</div>
-                        <div class="comment-reply">
-                            <button class="reply-btn">Ответить</button>
-                        </div>
-                        {% if user.is_authenticated %}
-                          {% if comment.author == user %}
-                      <form method="post" action="{% url 'delete_comment' comment.id %}">
-                          {% csrf_token %}
-                          <button type="submit">Удалить</button>
-                      </form>
-                      {% endif %}
-                      {% endif %}
-                    </div>
-                    {% endfor %}
-                {% endif %}
+  {% if comments %}
+    {% for comment in comments %}
+      <div class="comment" id="comment-container-{{ comment.id }}">
+        <div class="comment-header">
+          <div class="comment-author">
+            <div class="author-info">
+              <h4>{{comment.author}}</h4> 
+              <div class="comment-date">{{ comment.pub_date|timezone:"Europe/Moscow"|date:"j F Y, H:i" }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="comment-text">{{ comment.commentText }}</div>
+
+        <div class="comment-reply">
+          <button class="reply-btn">Ответить</button>
+        </div>
+
+        {% if user.is_authenticated and comment.author == user %}
+          <div class="comment-actions">
+            <form method="post" action="{% url 'delete_comment' comment.id %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit">Удалить</button>
+            </form>
+
+            <button onclick="toggleEdit('{{ comment.id }}')">Редактировать</button>
+          </div>
+          
+          <div id="edit-form-{{ comment.id }}" style="display:none; margin-top: 10px;">
+            <textarea id="input-{{ comment.id }}" style="width: 100%;">{{ comment.commentText }}</textarea>
+            <br>
+            <button onclick="saveEdit('{{ comment.id }}')">Сохранить</button>
+            <button onclick="toggleEdit('{{ comment.id }}')">Отмена</button>
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% endif %}
+</div>
+
+{% csrf_token %}
         {% comment %} TODO форму для комментарием средствами форм джанго {% endcomment %}
         </main>
 
@@ -879,5 +893,56 @@
     </div>
 
     <script src="{% static 'hello/js/main.js' %}"></script>
+    <script>
+function toggleEdit(id) {
+    const container = document.getElementById(`comment-container-${id}`);
+    const form = document.getElementById(`edit-form-${id}`);
+    const textDisplay = container.querySelector('.comment-text');
+    const actions = container.querySelector('.comment-actions'); // Скроем кнопки "удалить/ред"
+
+    if (form.style.display === 'none') {
+        form.style.display = 'block';
+        textDisplay.style.display = 'none';
+        if (actions) actions.style.display = 'none';
+    } else {
+        form.style.display = 'none';
+        textDisplay.style.display = 'block';
+        if (actions) actions.style.display = 'block';
+    }
+}
+
+function saveEdit(id) {
+    const container = document.getElementById(`comment-container-${id}`);
+    const textarea = document.getElementById(`input-${id}`);
+    const newText = textarea.value;
+    
+    // Получаем CSRF токен
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    fetch(`/comment/edit/${id}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrfToken
+        },
+        body: `text=${encodeURIComponent(newText)}`
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+    })
+    .then(data => {
+        if (data.status === 'ok') {
+            // Обновляем текст в блоке .comment-text
+            container.querySelector('.comment-text').innerText = data.text;
+            toggleEdit(id); // Закрываем форму
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Ошибка при сохранении');
+    });
+}
+        </script>
   </body>
 </html>

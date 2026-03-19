@@ -41,6 +41,7 @@ urlpatterns = [
     # структура полное говно, нужно всё переделать, привести к единому виду и стилю - и во views, в urls, совместить News_page + news_base
     path("news/<int:pk>/add-comment/", views.add_comment, name="add_comment"),
     path("news/<int:pk>/delete-comment/", views.delete_comment, name="delete_comment"),
+    path("comment/edit/<int:pk>/", views.edit_comment, name="edit_comment"),
 ]
 
 if settings.DEBUG:
