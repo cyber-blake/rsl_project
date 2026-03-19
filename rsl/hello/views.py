@@ -62,7 +62,7 @@ def add_comment(request, pk):
                 article=article,
                 email=form.cleaned_data["email"],
                 commentText=form.cleaned_data["commentText"],
-                author=form.cleaned_data["author"],
+                author=request.user,
             )
             # ✅ редирект ТОЛЬКО при успехе
             return redirect("news_page", pk=pk)
