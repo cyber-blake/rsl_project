@@ -25,20 +25,8 @@ from authorization import urls
 urlpatterns = [
     path("", views.index, name="index"),
     path("admin/", admin.site.urls),
-    # Маршрут для news-1.html
-    path("article/1/", views.news_one, name="article_1"),
-    # Маршрут для news-2.html
-    path("article/2/", views.news_two, name="article_2"),
-    # Маршрут для news-3.html
-    path("article/3/", views.news_three, name="article_3"),
-    # Маршрут для news-4.html
-    path("article/4/", views.news_four, name="article_4"),
-    # path("news/", include("news.urls")),
-    path(
-        "news/<int:pk>/", views.news_page, name="news_page"
-    ),  # как минимум функция и вью одноименные
+    path("news/<int:pk>/", views.news_page, name="news_page"),
     path("auth/", include("authorization.urls")),
-    # структура полное говно, нужно всё переделать, привести к единому виду и стилю - и во views, в urls, совместить News_page + news_base
     path("news/<int:pk>/add-comment/", views.add_comment, name="add_comment"),
     path("news/<int:pk>/delete-comment/", views.delete_comment, name="delete_comment"),
     path("comment/edit/<int:pk>/", views.edit_comment, name="edit_comment"),

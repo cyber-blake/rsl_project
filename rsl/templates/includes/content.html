@@ -1,0 +1,69 @@
+<div class="container">
+  <header>
+    <h1>Центральная городская библиотека</h1>
+    <p>Культурный и информационный центр города...</p>
+    <nav class="back-link">
+      <a href='{% url "index" %}'>← Вернуться на главную</a>
+    </nav>
+  </header>
+
+  <div class="main-content">
+    <aside class="left-sidebar">
+      <h2>Разделы сайта</h2>
+      <ul>
+        <li><a href="#about">О библиотеке</a></li>
+        </ul>
+    </aside>
+
+    <main>
+      <section class="news-header">
+        <h1>{% block title %}{{ article.title }}{% endblock %}</h1>
+        <div class="news-image">
+          {% if article.main_image %}<img src="{{ article.main_image.url }}">{% endif %}
+        </div>
+      </section>
+
+      <article class="news-content">
+        {% block body %}{% endblock %}
+      </article>
+
+      <div class="news-share">
+        <span>Поделиться:</span>
+        <div class="share-icons">
+          <div class="share-icon">VK</div>
+          <div class="share-icon">TG</div>
+        </div>
+      </div>
+
+      <section class="comments">
+        <h2>Комментарии ({{ comments|length }})</h2>
+        
+        {% if user.is_authenticated %}
+        <form class="comment-form" method="post" action="{% url 'add_comment' article.pk %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label>Email *</label>
+            <input type="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label>Комментарий *</label>
+            <textarea name="commentText" required></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Отправить</button>
+        </form>
+        {% endif %}
+
+        <div class="comments-list">
+          {% for comment in comments %}
+          <div class="comment">
+            <header>
+              <h4>{{comment.author}}</h4>
+              <time>{{ comment.pub_date|date:"j F Y" }}</time>
+            </header>
+            <div class="text">{{ comment.commentText }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+    </main>
+</div>

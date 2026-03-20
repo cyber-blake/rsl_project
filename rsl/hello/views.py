@@ -5,31 +5,11 @@ from .forms import CommentForm
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
     return render(request, "index.html")
-
-
-# пробные 4 страницы с шаблонами оформления, пока пусть будут
-def news_one(request):
-    """Отображает шаблон news-1.html"""
-    return render(request, "news-1.html")
-
-
-def news_two(request):
-    """Отображает шаблон news-2.html"""
-    return render(request, "news-2.html")
-
-
-def news_three(request):
-    """Отображает шаблон news-3.html"""
-    return render(request, "news-3.html")
-
-
-def news_four(request):
-    """Отображает шаблон news-4.html"""
-    return render(request, "news-4.html")
 
 
 def news_page(request, pk):
@@ -38,91 +18,70 @@ def news_page(request, pk):
     comments_list = Comment.objects.filter(approved=True, article=article).order_by(
         "-pub_date"
     )
-    edit_id = request.GET.get("edit")
-    edit_comment = None
-    edit_form = None
-    if edit_id:
-        edit_comment = get_object_or_404(Comment, pk=edit_id)
-        if request.user == edit_comment.author:
-            edit_form = CommentEditForm(instance=edit_comment)
     context = {
         "article": article,
         "comments": comments_list,
         "form": form,
-        "edit_comment": edit_comment,
-        "edit_form": edit_form,
     }
-    return render(request, "news_page.html", context)
+    return render(request, "base.html", context)
 
 
-# def get_latest_news(request):
-#     latest_news_list = Article.objects.order_by("-pub_date")[:4]
-#     context = {"latest_news_list": latest_news_list}
-#     return render(request, "news_page.html", context)
-
-
+@login_required
+@require_POST
 def add_comment(request, pk):
+    """Добавление комментария."""
     article = get_object_or_404(Article, pk=pk)
+    form = CommentForm(request.POST)
 
-    if request.method == "POST":
-        form = CommentForm(request.POST)
+    if form.is_valid():
+        # Создаем объект, но не сохраняем в БД сразу, чтобы добавить автора и статью
+        comment = form.save(commit=False)
+        comment.article = article
+        comment.author = request.user
+        comment.save()
+        return redirect("news_page", pk=pk)
 
-        if form.is_valid():
-            Comment.objects.create(
-                article=article,
-                email=form.cleaned_data["email"],
-                commentText=form.cleaned_data["commentText"],
-                author=request.user,
-            )
-            # ✅ редирект ТОЛЬКО при успехе
-            return redirect("news_page", pk=pk)
-
-        comments_list = Comment.objects.filter(approved=True, article=article).order_by(
-            "-pub_date"
-        )
-
-        return render(
-            request,
-            "news_page.html",
-            {
-                "article": article,
-                "form": form,  # форма с ошибками
-                "comments": comments_list,
-            },
-        )
-
-    # защита от прямого GET-запроса
-    return redirect("news_page", pk=pk)
+    # Если форма невалидна, возвращаем ту же страницу с ошибками
+    comments = article.comments.filter(approved=True).order_by("-pub_date")
+    return render(
+        request,
+        "news_page.html",
+        {
+            "article": article,
+            "form": form,
+            "comments": comments,
+        },
+    )
 
 
+@login_required
 @require_POST
 def delete_comment(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
+    """Мягкое удаление (скрытие) комментария."""
+    comment = get_object_or_404(Comment, pk=pk, author=request.user)
     comment.approved = False
     comment.save(update_fields=["approved"])
     return redirect("news_page", pk=comment.article.pk)
 
 
+@login_required
 @require_POST
 def edit_comment(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
+    """AJAX редактирование комментария."""
+    comment = get_object_or_404(Comment, pk=pk, author=request.user)
+    new_text = request.POST.get("text", "").strip()
 
-    if comment.author != request.user:
+    if not new_text:
         return JsonResponse(
-            {"status": "error", "message": "Чужое править нельзя"}, status=403
+            {"status": "error", "message": "Текст не может быть пустым"}, status=400
         )
 
-    new_text = request.POST.get("text")
+    comment.commentText = new_text
+    comment.save(update_fields=["commentText"])
 
-    if new_text:
-        comment.commentText = new_text
-        comment.save()
-
-        return JsonResponse(
-            {
-                "status": "ok",
-                "text": comment.commentText,
-            }
-        )
-
-    return JsonResponse({"status": "error", "message": "Пустой текст"}, status=400)
+    return JsonResponse(
+        {
+            "status": "ok",
+            "text": comment.commentText,
+        }
+    )
