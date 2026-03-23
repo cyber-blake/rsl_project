@@ -1,69 +1,144 @@
-<div class="container">
-  <header>
-    <h1>Центральная городская библиотека</h1>
-    <p>Культурный и информационный центр города...</p>
-    <nav class="back-link">
-      <a href='{% url "index" %}'>← Вернуться на главную</a>
-    </nav>
-  </header>
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article.title }}</title>
+    <style>
+        /* 1. Сброс стилей и переменные */
+        :root {
+            --primary: #4a6491;
+            --dark: #2c3e50;
+            --bg: #f5f5f5;
+            --white: #ffffff;
+            --text: #333;
+            --shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
 
-  <div class="main-content">
-    <aside class="left-sidebar">
-      <h2>Разделы сайта</h2>
-      <ul>
-        <li><a href="#about">О библиотеке</a></li>
-        </ul>
-    </aside>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; }
 
-    <main>
-      <section class="news-header">
-        <h1>{% block title %}{{ article.title }}{% endblock %}</h1>
-        <div class="news-image">
-          {% if article.main_image %}<img src="{{ article.main_image.url }}">{% endif %}
-        </div>
-      </section>
-
-      <article class="news-content">
-        {% block body %}{% endblock %}
-      </article>
-
-      <div class="news-share">
-        <span>Поделиться:</span>
-        <div class="share-icons">
-          <div class="share-icon">VK</div>
-          <div class="share-icon">TG</div>
-        </div>
-      </div>
-
-      <section class="comments">
-        <h2>Комментарии ({{ comments|length }})</h2>
+        /* 2. Сетка (Layout) */
+        .container { max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; min-height: 100vh; }
         
-        {% if user.is_authenticated %}
-        <form class="comment-form" method="post" action="{% url 'add_comment' article.pk %}">
-          {% csrf_token %}
-          <div class="form-group">
-            <label>Email *</label>
-            <input type="email" name="email" required>
-          </div>
-          <div class="form-group">
-            <label>Комментарий *</label>
-            <textarea name="commentText" required></textarea>
-          </div>
-          <button type="submit" class="submit-btn">Отправить</button>
-        </form>
-        {% endif %}
+        header { 
+            background: linear-gradient(135deg, var(--dark), var(--primary)); 
+            color: white; padding: 30px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
 
-        <div class="comments-list">
-          {% for comment in comments %}
-          <div class="comment">
-            <header>
-              <h4>{{comment.author}}</h4>
-              <time>{{ comment.pub_date|date:"j F Y" }}</time>
-            </header>
-            <div class="text">{{ comment.commentText }}</div>
-            </div>
-          {% endfor %}
+        .main-content { display: flex; flex: 1; padding: 20px; gap: 20px; }
+
+        /* Сайдбары */
+        aside { flex: 0 0 250px; display: flex; flex-direction: column; gap: 20px; }
+        .sidebar-block { background: var(--white); padding: 20px; border-radius: 8px; box-shadow: var(--shadow); }
+        
+        /* Центральная часть */
+        main { flex: 1; background: var(--white); padding: 30px; border-radius: 8px; box-shadow: var(--shadow); }
+
+        /* 3. Контент статьи */
+        .news-header h1 { color: var(--dark); font-size: 2.2rem; margin-bottom: 20px; }
+        .news-image img { width: 100%; height: 400px; object-fit: cover; border-radius: 8px; margin-bottom: 25px; }
+        .news-content { font-size: 1.1rem; margin-bottom: 30px; }
+
+        /* 4. Комментарии */
+        .comments { margin-top: 40px; border-top: 1px solid #eee; padding-top: 30px; }
+        .comment-form { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
+        .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; min-height: 100px; }
+        
+        .submit-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
+        .submit-btn:hover { background: var(--dark); }
+
+        .comment { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .comment header { background: none; color: var(--text); padding: 0; box-shadow: none; display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; }
+        .comment h4 { color: var(--primary); }
+
+        /* 5. Футер */
+        footer { background: var(--dark); color: white; padding: 40px 20px; text-align: center; margin-top: 20px; }
+
+        /* 6. Адаптивность */
+        @media (max-width: 1000px) {
+            .main-content { flex-direction: column; }
+            aside { flex: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Центральная городская библиотека</h1>
+        <p>Культурный и информационный центр города</p>
+        <div style="margin-top: 15px;">
+            <a href="{% url 'index' %}" style="color: white; text-decoration: none;">← На главную</a>
         </div>
-      </section>
-    </main>
+    </header>
+
+    <div class="main-content">
+        <aside>
+            <div class="sidebar-block">
+                <h3>Навигация</h3>
+                {% include "includes/sidebar_left.html" %}
+            </div>
+        </aside>
+
+        <main>
+            <section class="news-header">
+                <h1>{{ article.title }}</h1>
+                <div class="news-image">
+                    {% if article.main_image %}
+                        <img src="{{ article.main_image.url }}" alt="{{ article.title }}">
+                    {% elif article.image %}
+                        <img src="{{ article.image.url }}" alt="{{ article.title }}">
+                    {% endif %}
+                </div>
+            </section>
+
+            <article class="news-content">
+                {{ article.body|linebreaks }}
+            </article>
+
+            <section class="comments">
+                <h2>Комментарии ({{ comments|length }})</h2>
+                
+                {% if user.is_authenticated %}
+                <form class="comment-form" method="post" action="{% url 'add_comment' article.pk %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Ваш отзыв, {{ user.username }}</label>
+                        <textarea name="commentText" placeholder="Напишите что-нибудь..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Отправить</button>
+                </form>
+                {% endif %}
+
+                <div class="comments-list">
+                    {% for comment in comments %}
+                    <div class="comment">
+                        <header>
+                            <h4>{{ comment.author }}</h4>
+                            <time>{{ comment.pub_date|date:"j E Y" }}</time>
+                        </header>
+                        <div class="text">{{ comment.commentText }}</div>
+                    </div>
+                    {% empty %}
+                    <p>Пока нет комментариев.</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+
+        <aside>
+            {% include "includes/sidebar_right.html" %}
+        </aside>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Центральная библиотека. Все права защищены.</p>
+    </footer>
 </div>
+
+</body>
+</html>
