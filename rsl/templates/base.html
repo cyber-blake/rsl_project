@@ -4,31 +4,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'hello/css/styles.css' %}">
-    {% block title %}
-        <h1 class="news-title">{{ article.title }}</h1>
-    {% endblock %}
+    <title>{{ article.title }} — Центральная библиотека</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'hello/css/styles.css' %}">
 </head>
 <body>
     <div class="container">
-        {% include "includes/header.html" %}
+        <header>
+            <h1>Центральная городская библиотека</h1>
+            <p>Культурный и информационный центр города</p>
+        </header>
 
         <div class="main-content">
-            {% include "includes/sidebar_left.html" %}
+            <aside class="left-sidebar">
+                <h2>Разделы сайта</h2>
+                <ul class="nav-links">
+                    <li><a href="{% url 'index' %}">← На главную</a></li>
+                    <li><a href="#about">О библиотеке</a></li>
+                    <li><a href="#news">Новости</a></li>
+                    <li><a href="#services">Услуги</a></li>
+                </ul>
+                {% comment %} {% include "includes/sidebar_left.html" %} {% endcomment %}
+            </aside>
 
-            <main>
-                {% block content %}
-                {% block image %}<img src="{{ article.image.url }}" alt="{{ article.title }}">{% endblock %}
-                {% block body %}
-                    <span>{{ article.body|linebreaks }}</span>
-                {% endblock %}
-                {% endblock %}
+            <main class="center-content">
+                <section class="news-header">
+                    <h2>{{ article.title }}</h2>
+                    
+                    <div class="library-image" style="background: none; height: auto;">
+                        {% if article.main_image %}
+                            <img src="{{ article.main_image.url }}" alt="{{ article.title }}" style="width: 100%; border-radius: 8px;">
+                        {% elif article.image %}
+                            <img src="{{ article.image.url }}" alt="{{ article.title }}" style="width: 100%; border-radius: 8px;">
+                        {% endif %}
+                    </div>
+                </section>
+
+                <div class="welcome-text">
+                    {{ article.body|linebreaks }}
+                </div>
+
+                <div class="news-share" style="margin-top: 20px; padding: 10px; border-top: 1px solid #eee;">
+                    <span>Поделиться:</span>
+                    <div class="share-icons" style="display: flex; gap: 10px; margin-top: 5px;">
+                        <span class="share-icon">VK</span>
+                        <span class="share-icon">TG</span>
+                    </div>
+                </div>
+
+                <section class="comments" style="margin-top: 40px;">
+                    <h3>Комментарии ({{ comments|length }})</h3>
+                    
+                    {% if user.is_authenticated %}
+                    <div class="feature">
+                        <h3>Ваш комментарий</h3>
+                        <form class="comment-form" method="post" action="{% url 'add_comment' article.pk %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <textarea name="commentText" placeholder="Ваш комментарий..." required style="width: 100%; min-height: 100px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #ccc; padding: 10px;"></textarea>
+                            </div>
+                            <input type="submit" value="Отправить" class="submit-btn">
+                        </form>
+                    </div>
+                    {% else %}
+                    <p style="margin-bottom: 20px;"><a href="{% url 'login' %}">Войдите</a>, чтобы оставить комментарий.</p>
+                    {% endif %}
+
+                    <div class="comments-list">
+                        {% for comment in comments %}
+                        <div class="news-item" id="comment-{{ comment.id }}">
+                            <div class="news-date">{{ comment.author }} | {{ comment.pub_date|date:"j F Y, H:i" }}</div>
+                            <div class="text" style="margin-top: 5px;">
+                                {{ comment.commentText }}
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p>Комментариев пока нет. Будьте первым!</p>
+                        {% endfor %}
+                    </div>
+                </section>
             </main>
 
-            {% include "includes/sidebar_right.html" %}
+            <aside class="right-sidebar">
+                {% include "includes/sidebar_right.html" %}
+                
+                <div class="banner">
+                    <h3>Электронный каталог</h3>
+                    <div class="banner-placeholder">Поиск книг</div>
+                </div>
+            </aside>
         </div>
 
-        {% include "includes/footer.html" %}
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <p>г. Москва, ул. Читательская, 15</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Ссылки</h3>
+                    <a href="{% url 'index' %}">Главная</a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Центральная городская библиотека.
+            </div>
+        </footer>
     </div>
 </body>
 </html>
