@@ -48,13 +48,13 @@ def add_comment(request, pk):
         comment.article = article
         comment.author = request.user
         comment.save()
-        return redirect("news_page", pk=pk)
+        return redirect("base.html", pk=pk)
 
     # Если форма невалидна, возвращаем ту же страницу с ошибками
     comments = article.comments.filter(approved=True).order_by("-pub_date")
     return render(
         request,
-        "news_page.html",
+        "base.html",
         {
             "article": article,
             "form": form,
@@ -70,7 +70,7 @@ def delete_comment(request, pk):
     comment = get_object_or_404(Comment, pk=pk, author=request.user)
     comment.approved = False
     comment.save(update_fields=["approved"])
-    return redirect("news_page", pk=comment.article.pk)
+    return redirect("base.html", pk=comment.article.pk)
 
 
 @login_required
