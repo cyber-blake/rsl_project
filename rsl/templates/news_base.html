@@ -764,27 +764,33 @@
           <h2 class="comments-title">Комментарии ({{ comments|length }})</h2>
           <!-- Форма для добавления комментария -->
           
-          {% if user.is_authenticated %} 
-          {% comment %} показываем форму комментирования если юзер залогинен {% endcomment %}
-            <div class="comment-form">
+          
+{% block comments %}
+    {% if user.is_authenticated %}
+        {% comment %} показываем форму комментирования если юзер залогинен {% endcomment %}
+
+        <div class="comment-form">
             <h3>Оставьте ваш комментарий, {{ user }}</h3>
             <form method="post" action="{% url 'add_comment' article.pk %}">
                 {% csrf_token %}
-              <input type="hidden" name="author" value="{{ user.username }}">
-              <div class="form-group">
-                <label for="email">Email *</label>
-                <input type="email" id="email" name="email" required>
-              </div>
+                <input type="hidden" name="author" value="{{ user.username }}">
 
-              <div class="form-group">
-                <label for="comment">Комментарий *</label>
-                <textarea id="comment" name="commentText" required></textarea>
-              </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
 
-              <button type="submit" class="submit-btn">Отправить комментарий</button>
+                <div class="form-group">
+                    <label for="comment">Комментарий *</label>
+                    <textarea id="comment" name="commentText" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Отправить комментарий</button>
             </form>
         </div>
-          {% endif %}
+    {% endif %}
+{% endblock %}
+
             
           
             <!-- Список комментариев -->

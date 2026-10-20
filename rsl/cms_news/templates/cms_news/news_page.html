@@ -1,0 +1,22 @@
+{% extends "news_base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}
+    <h1 class="news-title">{{ page.title }}</h1>
+{% endblock %}
+
+{% block image %}
+{% if page.main_image %}
+    {% image page.main_image width-1200 as main_image %}
+    <img src="{{ main_image.url }}" alt="{{ page.title }}">
+{% endif %}
+{% endblock %}
+
+{% block body %}
+<div class="news-content">
+    {% include_block page.body %}
+</div>
+{% endblock %}
+
+
+{% block comments %}{% endblock %}

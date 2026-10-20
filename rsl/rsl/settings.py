@@ -56,9 +56,27 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # Wagtail
+    "wagtail",
+    "wagtail.admin",
+    "wagtail.users",
+    "wagtail.documents",
+    "wagtail.images",
+    "wagtail.search",
+    "wagtail.snippets",
+
+    # Wagtail dependencies
+    "modelcluster",
+    "taggit",
+
+    # мои приложения
     "hello",
     "authorization",
     "images",
+    "events",
+    "analytics",
+    "cms_news",
 ]
 
 MIDDLEWARE = [
@@ -157,3 +175,6 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "index"
 LOGOUT_REDIRECT_URL = "/"
+
+WAGTAILADMIN_BASE_URL = "http://127.0.0.1:8000"
+WAGTAIL_SITE_NAME = "Центральная библиотека"
