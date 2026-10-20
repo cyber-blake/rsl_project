@@ -697,6 +697,17 @@
         color: #2c3e50;
       }
 
+      .news-content blockquote.news-quote {
+          display: block;
+          margin: 24px 0;
+          padding: 16px 24px;
+          border-left: 5px solid #4a6491;
+          background: #f1f5f9;
+          color: #334155;
+          font-style: italic;
+          border-radius: 0 6px 6px 0;
+      }
+
     </style> 
   </head>
   <body>
@@ -739,10 +750,9 @@
             {% comment %} todo image storing and show-ing {% endcomment %}
           </div>
 
-         <div class="news-image">
-              {% if article.main_image %}
-                  <img src="{{ article.main_image.url }}" alt="{{ article.title }}">
-              {% endif %}
+          <div class="news-image">
+              {% block image %}
+              {% endblock %}
           </div>
           <div class="news-content">
               {% block body %}

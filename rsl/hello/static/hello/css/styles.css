@@ -317,3 +317,21 @@
           flex-direction: column;
         }
       }
+
+.news-quote {
+    margin: 24px 0;
+    padding: 16px 24px;
+    border-left: 4px solid #64748b;
+    background-color: #f1f5f9;
+    color: #334155;
+    font-style: italic;
+    border-radius: 0 6px 6px 0;
+}
+
+.news-quote p {
+    margin: 0 0 8px;
+}
+
+.news-quote p:last-child {
+    margin-bottom: 0;
+}

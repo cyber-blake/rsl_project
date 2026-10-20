@@ -25,10 +25,34 @@ class NewsPage(Page):
 
     body = StreamField(
         [
-            ("paragraph", blocks.RichTextBlock(label="Текст")),
-            ("heading", blocks.CharBlock(label="Подзаголовок")),
-            ("quote", blocks.BlockQuoteBlock(label="Цитата")),
-            ("image", ImageBlock(label="Изображение", required=False)),
+            (
+                "paragraph",
+                blocks.RichTextBlock(
+                    label="Текст",
+                    template="cms_news/blocks/paragraph.html",
+                ),
+            ),
+            (
+                "heading",
+                blocks.CharBlock(
+                    label="Подзаголовок",
+                    template="cms_news/blocks/heading.html",
+                ),
+            ),
+            (
+                "quote",
+                blocks.BlockQuoteBlock(
+                    label="Цитата",
+                    template="cms_news/blocks/quote.html",
+                ),
+            ),
+            (
+                "image",
+                ImageBlock(
+                    label="Изображение",
+                    required=False,
+                ),
+            ),
         ],
         use_json_field=True,
         blank=True,
@@ -42,7 +66,7 @@ class NewsPage(Page):
     ]
 
     promote_panels = Page.promote_panels + [
-    FieldPanel("slug", widget=SlugInput(locale="ru")),
+        FieldPanel("slug", widget=SlugInput(locale="ru")),
     ]
 
     parent_page_types = ["wagtailcore.Page"]
