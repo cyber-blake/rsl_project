@@ -7,6 +7,35 @@ from wagtail.images.blocks import ImageBlock
 from wagtail.admin.widgets import SlugInput
 
 
+class CarouselSlideBlock(blocks.StructBlock):
+    image = ImageBlock(
+        label="Изображение",
+        required=True,
+    )
+    caption = blocks.CharBlock(
+        label="Подпись",
+        required=False,
+    )
+
+    class Meta:
+        label = "Слайд"
+        icon = "image"
+
+
+class CarouselBlock(blocks.StructBlock):
+    slides = blocks.ListBlock(
+        CarouselSlideBlock(),
+        label="Слайды",
+        min_num=1,
+    )
+
+    class Meta:
+        label = "Карусель изображений"
+        icon = "image"
+        template = "cms_news/blocks/carousel.html"
+
+
+
 class NewsPage(Page):
     publication_date = models.DateTimeField(
         "Дата публикации",
@@ -53,6 +82,12 @@ class NewsPage(Page):
                     required=False,
                 ),
             ),
+
+            (
+                "carousel",
+                CarouselBlock(),
+            ),
+
         ],
         use_json_field=True,
         blank=True,
