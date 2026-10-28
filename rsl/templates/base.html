@@ -8,13 +8,20 @@
     <title>Центральная библиотека города</title>
   </head>
   <body>
-    <div class="container">
+    <div class="site-container">
       <header>
         <h1>Центральная городская библиотека</h1>
         <p>
           Культурный и информационный центр города с более чем 100-летней
           историей
         </p>
+        {% if user.is_authenticated %}
+  <div class="header-user">
+    <a href="{% url 'profile' %}" class="header-profile-link">
+      Мой профиль
+    </a>
+  </div>
+{% endif %}
       </header>
 
       <div class="main-content">
@@ -35,8 +42,10 @@
         </aside>
 
         <!-- Центральная колонка - основная информация -->
-        <main class="center-content"> 
-          {% comment %} todo block structure {% endcomment %}
+<!-- Центральная колонка - основная информация -->
+        <main class="center-content">
+          {% block content %}
+          {% endblock %}
         </main>
         <!-- Правая колонка - новости и баннеры -->
         <aside class="right-sidebar">

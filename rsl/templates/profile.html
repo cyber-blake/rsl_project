@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="profile-page">
+
+  <section class="profile-card">
+    <div class="profile-avatar">
+      {{ user.username|first|upper }}
+    </div>
+
+    <div class="profile-info">
+      <h1>{{ user.username }}</h1>
+      <p>Пользователь библиотеки</p>
+      <span>
+        На сайте с {{ user.date_joined|date:"d.m.Y" }}
+      </span>
+    </div>
+  </section>
+
+  <section class="profile-comments">
+    <h2>Мои комментарии</h2>
+
+    {% for comment in comments %}
+      <article class="profile-comment">
+<div class="profile-comment-header">
+  <a href="{% url 'news_page' pk=comment.article.pk %}">
+    {{ comment.article.title }}
+  </a>
+</div>
+
+        <p>{{ comment.commentText }}</p>
+      </article>
+    {% empty %}
+      <p class="profile-empty">
+        Вы пока не оставили ни одного комментария.
+      </p>
+    {% endfor %}
+
+  </section>
+
+</div>
+
+{% endblock %}

@@ -27,6 +27,7 @@ urlpatterns = [
     path("news/<int:pk>/add-comment/", views.add_comment, name="add_comment"),
     path("news/<int:pk>/delete-comment/", views.delete_comment, name="delete_comment"),
     path("comment/edit/<int:pk>/", views.edit_comment, name="edit_comment"),
+    path("profile/", views.profile_view, name="profile"),
     path("cms/", include(wagtailadmin_urls)),
     path("", include("wagtail.urls")),
     

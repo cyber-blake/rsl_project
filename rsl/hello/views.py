@@ -5,6 +5,8 @@ from .forms import CommentForm
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+
 
 
 def index(request):
@@ -126,3 +128,22 @@ def edit_comment(request, pk):
         )
 
     return JsonResponse({"status": "error", "message": "Пустой текст"}, status=400)
+
+
+@login_required
+def profile_view(request):
+    comments = (
+        Comment.objects
+        .filter(author=request.user, approved=True)
+        .select_related("article")
+        .order_by("-pub_date")
+    )
+
+    return render(
+        request,
+        "profile.html",
+        {
+            "user": request.user,
+            "comments": comments,
+        },
+    )
