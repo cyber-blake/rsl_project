@@ -75,74 +75,13 @@
           
           
 {% block comments %}
-    {% if user.is_authenticated %}
-        {% comment %} показываем форму комментирования если юзер залогинен {% endcomment %}
-
-        <div class="comment-form">
-            <h3>Оставьте ваш комментарий, {{ user }}</h3>
-            <form method="post" action="{% url 'add_comment' article.pk %}">
-                {% csrf_token %}
-                <input type="hidden" name="author" value="{{ user.username }}">
-
-                <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="comment">Комментарий *</label>
-                    <textarea id="comment" name="commentText" required></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn">Отправить комментарий</button>
-            </form>
-        </div>
-    {% endif %}
+    {% include "includes/comment_form.html" %}
 {% endblock %}
 
             
           
-            <!-- Список комментариев -->
-            <div class="comments-list">
-  {% if comments %}
-    {% for comment in comments %}
-      <div class="comment" id="comment-container-{{ comment.id }}">
-        <div class="comment-header">
-          <div class="comment-author">
-            <div class="author-info">
-              <h4>{{comment.author}}</h4> 
-              <div class="comment-date">{{ comment.pub_date|timezone:"Europe/Moscow"|date:"j F Y, H:i" }}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="comment-text">{{ comment.commentText }}</div>
-
-        <div class="comment-reply">
-          <button class="reply-btn">Ответить</button>
-        </div>
-
-        {% if user.is_authenticated and comment.author == user %}
-          <div class="comment-actions">
-            <form method="post" action="{% url 'delete_comment' comment.id %}" style="display:inline;">
-              {% csrf_token %}
-              <button type="submit">Удалить</button>
-            </form>
-
-            <button onclick="toggleEdit('{{ comment.id }}')">Редактировать</button>
-          </div>
-          
-          <div id="edit-form-{{ comment.id }}" style="display:none; margin-top: 10px;">
-            <textarea id="input-{{ comment.id }}" style="width: 100%;">{{ comment.commentText }}</textarea>
-            <br>
-            <button onclick="saveEdit('{{ comment.id }}')">Сохранить</button>
-            <button onclick="toggleEdit('{{ comment.id }}')">Отмена</button>
-          </div>
-        {% endif %}
-      </div>
-    {% endfor %}
-  {% endif %}
-</div>
+<!-- Список комментариев -->
+{% include "includes/comment_list.html" %}
 
 {% csrf_token %}
         {% comment %} TODO форму для комментарием средствами форм джанго {% endcomment %}
