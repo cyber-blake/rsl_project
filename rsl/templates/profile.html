@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load wagtailcore_tags %}
 {% block content %}
 
 <div class="profile-page">
@@ -21,21 +21,36 @@
   <section class="profile-comments">
     <h2>Мои комментарии</h2>
 
-    {% for comment in comments %}
-      <article class="profile-comment">
-<div class="profile-comment-header">
-  <a href="{% url 'news_page' pk=comment.article.pk %}">
-    {{ comment.article.title }}
-  </a>
-</div>
+{% for comment in comments %}
+  <article class="profile-comment">
 
-        <p>{{ comment.commentText }}</p>
-      </article>
-    {% empty %}
-      <p class="profile-empty">
-        Вы пока не оставили ни одного комментария.
-      </p>
-    {% endfor %}
+    <div class="profile-comment-header">
+
+      {% if comment.news_page_id %}
+        <a href="{% pageurl comment.news_page %}">
+          {{ comment.news_page.title }}
+        </a>
+
+      {% elif comment.article_id %}
+        <a href="{% url 'news_page' pk=comment.article.pk %}">
+          {{ comment.article.title }}
+        </a>
+      {% endif %}
+
+    </div>
+
+    <p>{{ comment.commentText }}</p>
+
+    <div class="comment-date">
+      {{ comment.pub_date|date:"d.m.Y, H:i" }}
+    </div>
+
+  </article>
+{% empty %}
+  <p class="profile-empty">
+    Вы пока не оставили ни одного комментария.
+  </p>
+{% endfor %}
 
   </section>
 

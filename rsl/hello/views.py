@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect,HttpResponseForbidden
 from .models import Comment, Article
 from .forms import CommentForm
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-
+from cms_news.models import NewsPage
+from django.contrib import messages
 
 
 def index(request):
@@ -97,12 +98,26 @@ def add_comment(request, pk):
     return redirect("news_page", pk=pk)
 
 
+@login_required
 @require_POST
 def delete_comment(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
+
+    # Удалять комментарий может только его автор
+    if comment.author_id != request.user.id:
+        return HttpResponseForbidden("Нельзя удалить чужой комментарий")
+
+    # Определяем страницу для возврата
+    if comment.news_page_id:
+        redirect_url = comment.news_page.get_url(request=request)
+    else:
+        redirect_url = reverse("news_page", kwargs={"pk": comment.article_id})
+
+    # Мягкое удаление
     comment.approved = False
     comment.save(update_fields=["approved"])
-    return redirect("news_page", pk=comment.article.pk)
+
+    return redirect(redirect_url)
 
 
 @require_POST
@@ -135,7 +150,7 @@ def profile_view(request):
     comments = (
         Comment.objects
         .filter(author=request.user, approved=True)
-        .select_related("article")
+        .select_related("article", "news_page")
         .order_by("-pub_date")
     )
 
@@ -147,3 +162,21 @@ def profile_view(request):
             "comments": comments,
         },
     )
+
+@login_required
+@require_POST
+def add_wagtail_comment(request, pk):
+    page = get_object_or_404(NewsPage, pk=pk, live=True)
+    form = CommentForm(request.POST)
+
+    if form.is_valid():
+        Comment.objects.create(
+            news_page=page,
+            author=request.user,
+            email=form.cleaned_data["email"],
+            commentText=form.cleaned_data["commentText"],
+        )
+    else:
+        messages.error(request, "Проверьте заполнение формы комментария.")
+
+    return redirect(page.get_url(request=request))

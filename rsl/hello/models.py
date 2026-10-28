@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 import uuid
 from django.contrib.auth.models import User
-
+from cms_news.models import NewsPage
 
 class Article(models.Model):
     # Обязательные поля
@@ -41,7 +41,19 @@ class Comment(models.Model):
     pub_date = models.DateTimeField(_("Дата создания"), auto_now_add=True)
     approved = models.BooleanField(_("Одобрен"), default=True)
     article = models.ForeignKey(
-        Article, on_delete=models.CASCADE, related_name="comments"
+        Article,
+        on_delete=models.CASCADE,
+        related_name="comments",
+        null=True,
+        blank=True,
+    )
+    news_page = models.ForeignKey(
+    NewsPage,
+    on_delete=models.CASCADE,
+    related_name="comments",
+    null=True,
+    blank=True,
+    verbose_name="Новость Wagtail",
     )
     email = models.EmailField(_("Эл. почта"), max_length=254)
     # author = models.CharField(_("Автор комментария"), max_length=40)

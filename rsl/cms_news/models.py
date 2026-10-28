@@ -106,7 +106,11 @@ class NewsPage(Page):
 
     parent_page_types = ["wagtailcore.Page"]
     subpage_types = []
-
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["comments"] = (self.comments.filter(approved=True).select_related("author").order_by("-pub_date"))
+        return context
+    
     class Meta:
         verbose_name = "Новость"
         verbose_name_plural = "Новости"
