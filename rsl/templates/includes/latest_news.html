@@ -1,9 +1,23 @@
+
+{% load wagtailcore_tags %}
+
 <div class="related">
     {% for item in latest_news_list %}
+
         <div class="related-item">
-            <div class="related-title">{{ item.title }}</div>
-            <div class="related-date">{{ item.pub_date }}</div>
+
+            <div class="related-title">
+                <a href="{% pageurl item %}">
+                    {{ item.title }}
+                </a>
+            </div>
+
+            <div class="related-date">
+                {{ item.sort_date|date:"d.m.Y" }}
+            </div>
+
         </div>
+
     {% empty %}
         <p>Новостей пока нет.</p>
     {% endfor %}

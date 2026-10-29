@@ -22,25 +22,18 @@
         </main>
         <!-- Правая колонка - новости и баннеры -->
         <aside class="right-sidebar">
-          <section class="news-section">
-            <h2></h2>
+<section class="news-section">
+  <h2>Архив новостей</h2>
 
-            <div class="news-item">
-              <div class="news-date"></div>
-              <div class="news-title">
-                <a href="{% url 'article_1' %}"></a>
-              </div>
-              <p></p>
-            </div>
+  <p>
+    Все публикации, события и объявления
+    Центральной городской библиотеки.
+  </p>
 
-            <div class="news-item">
-              <div class="news-date"></div>
-              <div class="news-title">
-                <a href="{% url 'article_2' %}"></a>
-              </div>
-              <p></p>
-            </div>
-          </section>
+  <a href="{% url 'news_archive' %}">
+    Смотреть все новости →
+  </a>
+</section>
 
           <div class="banner">
             <h3>Присоединяйтесь к книжному клубу</h3>

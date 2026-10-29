@@ -133,52 +133,18 @@
 
         <!-- Правая колонка - новости и баннеры -->
         <aside class="right-sidebar">
-          <section class="news-section">
-            <h2>Последние новости</h2>
+<section class="news-section">
+  <h2>Архив новостей</h2>
 
-            <div class="news-item">
-              <div class="news-date">15 октября 2023</div>
-              <div class="news-title">
-                <a href="{% url 'article_1' %}"
-                  >Новая коллекция электронных книг</a
-                >
-              </div>
-              <p>
-                Библиотека пополнила фонд электронных книг на 500 новых изданий.
-              </p>
-            </div>
+  <p>
+    Все публикации, события и объявления
+    Центральной городской библиотеки.
+  </p>
 
-            <div class="news-item">
-              <div class="news-date">10 октября 2023</div>
-              <div class="news-title">
-                <a href="{% url 'article_2' %}"
-                  >Встреча с писателем А. Ивановым</a
-                >
-              </div>
-              <p>
-                25 октября в 18:00 состоится творческая встреча с известным
-                автором.
-              </p>
-            </div>
-
-            <div class="news-item">
-              <div class="news-date">5 октября 2023</div>
-              <div class="news-title">
-                <a href="{% url 'article_3' %}">Мастер-класс по каллиграфии</a>
-              </div>
-              <p>
-                Приглашаем всех желающих на бесплатный мастер-класс 20 октября.
-              </p>
-            </div>
-
-            <div class="news-item">
-              <div class="news-date">1 октября 2023</div>
-              <div class="news-title">
-                <a href="{% url 'article_4' %}">Ремонт читального зала</a>
-              </div>
-              <p>С 10 по 20 октября читальный зал №2 будет закрыт на ремонт.</p>
-            </div>
-          </section>
+  <a href="{% url 'news_archive' %}">
+    Смотреть все новости →
+  </a>
+</section>
 
           <div class="banner">
             <h3>Присоединяйтесь к книжному клубу</h3>

@@ -1,5 +1,20 @@
-from .models import Article
+
+from cms_news.models import NewsPage
+from django.db.models.functions import Coalesce
 
 
 def latest_news(request):
-    return {"latest_news_list": Article.objects.order_by("-pub_date")[:4]}
+    news = (
+        NewsPage.objects
+        .live()
+        .public()
+        .annotate(
+            sort_date=Coalesce(
+                "publication_date",
+                "first_published_at",
+            )
+        )
+        .order_by("-sort_date", "-pk")[:4]
+    )
+
+    return {"latest_news_list": news}
