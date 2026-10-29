@@ -1,5 +1,6 @@
 {% load static %}
 {% load tz %}
+{% load wagtailcore_tags %}
 <!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -55,6 +56,38 @@
           </div>
 
           <div class="library-image">Читальный зал Центральной библиотеки</div>
+
+        <!-- Последние новости -->
+        <section class="home-latest-news">
+          <h2>Последние новости</h2>
+
+          {% for item in latest_news %}
+            <article class="home-news-item">
+
+              <div class="home-news-date">
+                {{ item.page.sort_date|date:"d.m.Y" }}
+              </div>
+
+              <h3>
+                <a href="{% pageurl item.page %}">
+                  {{ item.page.title }}
+                </a>
+              </h3>
+
+              {% if item.preview %}
+                <p>{{ item.preview }}</p>
+              {% endif %}
+
+              <a href="{% pageurl item.page %}" class="home-news-more">
+                Читать далее →
+              </a>
+
+            </article>
+          {% empty %}
+            <p>Пока нет опубликованных новостей.</p>
+          {% endfor %}
+        </section>
+        <!-- Конец последних новостей -->
 
           <div class="features">
             <div class="feature">

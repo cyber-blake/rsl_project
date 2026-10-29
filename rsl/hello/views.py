@@ -8,10 +8,60 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from cms_news.models import NewsPage
 from django.contrib import messages
-
+import re
+from django.db.models.functions import Coalesce
+from django.utils.html import strip_tags
+from django.utils.text import Truncator
 
 def index(request):
-    return render(request, "index.html")
+    # Получаем 5 последних опубликованных новостей Wagtail
+    pages = (
+        NewsPage.objects
+        .live()
+        .public()
+        .annotate(
+            sort_date=Coalesce(
+                "publication_date",
+                "first_published_at",
+            )
+        )
+        .order_by("-sort_date")[:5]
+    )
+
+    latest_news = []
+
+    for page in pages:
+        paragraphs = []
+
+        # Извлекаем текст из абзацев StreamField
+        for block in page.body:
+            if block.block_type == "paragraph":
+                text = strip_tags(str(block.value)).strip()
+
+                if text:
+                    paragraphs.append(text)
+
+        full_text = " ".join(paragraphs)
+
+        # Первые два предложения
+        sentences = re.split(r"(?<=[.!?])\s+", full_text)
+        preview = " ".join(sentences[:2])
+
+        # Не более 280 символов
+        preview = Truncator(preview).chars(280)
+
+        latest_news.append({
+            "page": page,
+            "preview": preview,
+        })
+
+    return render(
+        request,
+        "index.html",
+        {
+            "latest_news": latest_news,
+        },
+    )
 
 
 # пробные 4 страницы с шаблонами оформления, пока пусть будут
