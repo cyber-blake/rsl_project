@@ -93,7 +93,8 @@ header p {
 
 /* Центральная колонка */
 .center-content {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
   background-color: #fff;
   border-radius: 8px;
   padding: 30px;
@@ -1041,3 +1042,118 @@ footer {
 .home-news-more:hover {
   text-decoration: underline;
 }
+
+
+/* ===== Общая шапка сайта ===== */
+
+.site-header {
+  padding: 0;
+  text-align: left;
+}
+
+.site-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 30px;
+}
+
+.site-brand h1 {
+  font-size: 1.8rem;
+  margin: 0 0 6px;
+}
+
+.site-brand h1 a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.site-brand p {
+  margin: 0;
+  color: #dce5f0;
+  font-size: 0.9rem;
+}
+
+.site-account a {
+  display: inline-block;
+  padding: 9px 16px;
+  border: 1px solid rgba(255,255,255,0.45);
+  border-radius: 7px;
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-account a:hover {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+
+/* Горизонтальная навигация */
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 10px 24px;
+  background: rgba(0,0,0,0.13);
+}
+
+.site-nav a {
+  display: block;
+  padding: 9px 15px;
+  border-radius: 6px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+}
+
+/* Мобильная версия */
+
+@media (max-width: 600px) {
+  .site-header-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .site-brand h1 {
+    font-size: 1.4rem;
+  }
+
+  .site-nav {
+    padding: 8px 12px;
+  }
+
+  .site-nav a {
+    padding: 10px 12px;
+  }
+}
+
+
+/* Активный раздел верхнего меню */
+
+.site-nav a[aria-current="page"] {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-weight: 600;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+#hours,
+#contacts {
+  scroll-margin-top: 24px;
+}
+

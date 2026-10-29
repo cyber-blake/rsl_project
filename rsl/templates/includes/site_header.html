@@ -1,0 +1,47 @@
+
+<header class="site-header">
+  <div class="site-header-top">
+    <div class="site-brand">
+      <h1>
+        <a href="{% url 'index' %}">
+          Центральная городская библиотека
+        </a>
+      </h1>
+      <p>Культурный и информационный центр города</p>
+    </div>
+
+    <div class="site-account">
+      {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}">
+          Мой профиль
+        </a>
+      {% else %}
+        <a href="{% url 'login' %}">
+          Войти
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+<nav class="site-nav" aria-label="Основная навигация">
+
+  <a href="{% url 'index' %}"
+     {% if request.path == '/' %}aria-current="page"{% endif %}>
+    Главная
+  </a>
+
+  <a href="/news/"
+     {% if '/news/' in request.path %}aria-current="page"{% endif %}>
+    Новости
+  </a>
+
+  <a href="{% url 'index' %}#hours">
+    Часы работы
+  </a>
+
+  <a href="{% url 'index' %}#contacts">
+    Контакты
+  </a>
+
+</nav>
+</header>

@@ -11,30 +11,11 @@
   </head>
   <body>
     <div class="container">
-      <header>
-        <h1>Центральная городская библиотека</h1>
-        <p>
-          Культурный и информационный центр города с более чем 100-летней
-          историей
-        </p>
-      </header>
+    {% include "includes/site_header.html" %}
 
       <div class="main-content">
         <!-- Левая колонка - навигация -->
-        <aside class="left-sidebar">
-          <h2>Разделы сайта</h2>
-          <ul class="nav-links">
-            <li><a href="#about">О библиотеке</a></li>
-            <li><a href="#poster">Афиша</a></li>
-            <li><a href="#e-library">Электронная библиотека</a></li>
-            <li><a href="#news">Новости</a></li>
-            <li><a href="#resources">Ресурсы</a></li>
-            <li><a href="#services">Услуги</a></li>
-            <li><a href="#local-history">Краеведение</a></li>
-            <li><a href="#vacancies">Вакансии</a></li>
-            <li><a href="#library-voice">Голос библиотеки</a></li>
-          </ul>
-        </aside>
+
 
         <!-- Центральная колонка - основная информация -->
         <main class="center-content">
@@ -90,13 +71,13 @@
         <!-- Конец последних новостей -->
 
           <div class="features">
-            <div class="feature">
-              <h3>Часы работы</h3>
+          <div class="feature" id="hours">
+            <h3>Часы работы</h3>
               <p>Пн-Пт: 10:00 - 20:00</p>
               <p>Сб-Вс: 11:00 - 18:00</p>
             </div>
-            <div class="feature">
-              <h3>Контакты</h3>
+          <div class="feature" id="contacts">
+            <h3>Контакты</h3>
               <p>г. Москва, ул. Читательская, 15</p>
               <p>тел: +7 (495) 123-45-67</p>
               <p>email: info@library.ru</p>

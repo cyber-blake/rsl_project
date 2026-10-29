@@ -9,37 +9,10 @@
   </head>
   <body>
     <div class="site-container">
-      <header>
-        <h1>Центральная городская библиотека</h1>
-        <p>
-          Культурный и информационный центр города с более чем 100-летней
-          историей
-        </p>
-        {% if user.is_authenticated %}
-  <div class="header-user">
-    <a href="{% url 'profile' %}" class="header-profile-link">
-      Мой профиль
-    </a>
-  </div>
-{% endif %}
-      </header>
+    {% include "includes/site_header.html" %}
 
       <div class="main-content">
         <!-- Левая колонка - навигация -->
-        <aside class="left-sidebar">
-          <h2>Разделы сайта</h2>
-          <ul class="nav-links">
-            <li><a href="#about">О библиотеке</a></li>
-            <li><a href="#poster">Афиша</a></li>
-            <li><a href="#e-library">Электронная библиотека</a></li>
-            <li><a href="#news">Новости</a></li>
-            <li><a href="#resources">Ресурсы</a></li>
-            <li><a href="#services">Услуги</a></li>
-            <li><a href="#local-history">Краеведение</a></li>
-            <li><a href="#vacancies">Вакансии</a></li>
-            <li><a href="#library-voice">Голос библиотеки</a></li>
-          </ul>
-        </aside>
 
         <!-- Центральная колонка - основная информация -->
 <!-- Центральная колонка - основная информация -->

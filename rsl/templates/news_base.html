@@ -5,43 +5,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ article.title }}</title>
+    <title>
+      {% if page %}
+        {{ page.title }}
+      {% elif article %}
+        {{ article.title }}
+      {% else %}
+        Новости библиотеки
+      {% endif %}
+  </title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'hello/css/styles.css' %}">
   </head>
   <body>
-    {% comment %} todo Исправить удаление комментов только юзера {% endcomment %}
     <div class="site-container">
-      <header>
-    {% comment %} todo сделать [header] отдельным шаблоном заготовкой {% endcomment %}
-
-        <h1>Центральная городская библиотека</h1>
-        <p>
-          Культурный и информационный центр города с более чем 100-летней
-          историей
-        </p>
-        <div class="back-link">
-          <a href='{% url "index" %}'>← Вернуться на главную</a>
-        </div>
-      </header>
+    {% include "includes/site_header.html" %}
 
       <div class="main-content">
         <!-- Левая колонка - навигация -->
-        <aside class="left-sidebar">
-          <h2>Разделы сайта</h2>
-          <ul class="nav-links">
-            <li><a href="#about">О библиотеке</a></li>
-            <li><a href="#poster">Афиша</a></li>
-            <li><a href="#e-library">Электронная библиотека</a></li>
-            <li><a href="#news">Новости</a></li>
-            <li><a href="#resources">Ресурсы</a></li>
-            <li><a href="#services">Услуги</a></li>
-            <li><a href="#local-history">Краеведение</a></li>
-            <li><a href="#vacancies">Вакансии</a></li>
-            <li><a href="#library-voice">Голос библиотеки</a></li>
-          </ul>
-        </aside>
-
+        
         <!-- Центральная колонка - статья и комментарии -->
         <main class="center-content">
           <div class="news-header">
