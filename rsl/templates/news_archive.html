@@ -1,0 +1,162 @@
+
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+
+<section class="news-archive">
+
+  <div class="news-archive-header">
+    <h1>Новости библиотеки</h1>
+    <p>
+      Последние события, объявления и мероприятия нашей библиотеки.
+    </p>
+  </div>
+
+<!-- Поиск и фильтры новостей -->
+<form method="get" action="{% url 'news_archive' %}"
+      class="news-archive-filters">
+
+  <div class="archive-filter-search">
+    <label for="news-search">Поиск новостей</label>
+    <input
+      type="search"
+      id="news-search"
+      name="q"
+      value="{{ query }}"
+      placeholder="Название или текст новости..."
+      maxlength="100"
+    >
+  </div>
+
+  <div class="archive-filter-year">
+    <label for="news-year">Год публикации</label>
+    <select id="news-year" name="year">
+      <option value="">Все годы</option>
+
+      {% for year in years %}
+        <option value="{{ year }}"
+          {% if selected_year == year %}selected{% endif %}>
+          {{ year }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="archive-filter-actions">
+    <button type="submit" class="archive-filter-submit">
+      Найти
+    </button>
+
+    <a href="{% url 'news_archive' %}"
+       class="archive-filter-reset">
+      Сбросить
+    </a>
+  </div>
+
+</form>
+
+{% if query or selected_year %}
+  <p class="archive-results-count">
+    Найдено новостей: {{ page_obj.paginator.count }}
+  </p>
+{% endif %}
+
+  <div class="news-archive-grid">
+
+    {% for item in news_cards %}
+
+      <article class="archive-card">
+
+        <a href="{% pageurl item.page %}" class="archive-card-image">
+
+          {% if item.page.main_image %}
+
+            {% image item.page.main_image fill-640x360 as cover %}
+
+            <img
+              src="{{ cover.url }}"
+              alt="{{ item.page.main_image.title }}"
+              loading="lazy"
+            >
+
+          {% else %}
+
+            <div class="archive-image-placeholder">
+              <span>Новости библиотеки</span>
+            </div>
+
+          {% endif %}
+
+        </a>
+
+        <div class="archive-card-content">
+
+          <div class="archive-card-date">
+            {{ item.page.sort_date|date:"d.m.Y" }}
+          </div>
+
+          <h2>
+            <a href="{% pageurl item.page %}">
+              {{ item.page.title }}
+            </a>
+          </h2>
+
+          {% if item.preview %}
+            <p>{{ item.preview }}</p>
+          {% endif %}
+
+          <a href="{% pageurl item.page %}" class="archive-card-more">
+            Читать далее →
+          </a>
+
+        </div>
+
+      </article>
+
+{% empty %}
+  {% if query or selected_year %}
+    <p>По заданным условиям новости не найдены.</p>
+  {% else %}
+    <p>Пока нет опубликованных новостей.</p>
+  {% endif %}
+
+    {% endfor %}
+
+  </div>
+
+  {% if page_obj.has_other_pages %}
+
+<nav class="archive-pagination" aria-label="Страницы новостей">
+
+  {% if page_obj.has_previous %}
+    <a href="{% querystring page=page_obj.previous_page_number %}">
+      ← Назад
+    </a>
+  {% endif %}
+
+  {% for number in page_obj.paginator.page_range %}
+    {% if number == page_obj.number %}
+      <span class="active" aria-current="page">
+        {{ number }}
+      </span>
+    {% else %}
+      <a href="{% querystring page=number %}">
+        {{ number }}
+      </a>
+    {% endif %}
+  {% endfor %}
+
+  {% if page_obj.has_next %}
+    <a href="{% querystring page=page_obj.next_page_number %}">
+      Далее →
+    </a>
+  {% endif %}
+
+</nav>
+
+  {% endif %}
+
+</section>
+
+{% endblock %}
