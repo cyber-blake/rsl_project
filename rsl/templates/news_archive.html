@@ -1,11 +1,11 @@
 
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
 
 <section class="news-archive">
 
+  <!-- Заголовок страницы -->
   <div class="news-archive-header">
     <h1>Новости библиотеки</h1>
     <p>
@@ -13,92 +13,99 @@
     </p>
   </div>
 
-<!-- Поиск и фильтры новостей -->
-<form method="get" action="{% url 'news_archive' %}"
-      class="news-archive-filters">
+  <!-- Поиск и фильтрация -->
+  <form
+    method="get"
+    action="{% url 'news_archive' %}"
+    class="news-archive-filters"
+  >
 
-  <div class="archive-filter-search">
-    <label for="news-search">Поиск новостей</label>
-    <input
-      type="search"
-      id="news-search"
-      name="q"
-      value="{{ query }}"
-      placeholder="Название или текст новости..."
-      maxlength="100"
-    >
-  </div>
+    <div class="archive-filter-search">
+      <label for="news-search">Поиск новостей</label>
+      <input
+        type="search"
+        id="news-search"
+        name="q"
+        value="{{ query }}"
+        placeholder="Название или текст новости..."
+        maxlength="100"
+      >
+    </div>
 
-  <div class="archive-filter-year">
-    <label for="news-year">Год публикации</label>
-    <select id="news-year" name="year">
-      <option value="">Все годы</option>
+    <div class="archive-filter-year">
+      <label for="news-year">Год публикации</label>
 
-      {% for year in years %}
-        <option value="{{ year }}"
-          {% if selected_year == year %}selected{% endif %}>
-          {{ year }}
-        </option>
-      {% endfor %}
-    </select>
-  </div>
+      <select id="news-year" name="year">
+        <option value="">Все годы</option>
 
-  <div class="archive-filter-actions">
-    <button type="submit" class="archive-filter-submit">
-      Найти
-    </button>
+        {% for year in years %}
+          <option
+            value="{{ year }}"
+            {% if selected_year == year %}selected{% endif %}
+          >
+            {{ year }}
+          </option>
+        {% endfor %}
 
-    <a href="{% url 'news_archive' %}"
-       class="archive-filter-reset">
-      Сбросить
-    </a>
-  </div>
+      </select>
+    </div>
 
-</form>
+    <div class="archive-filter-actions">
+      <button type="submit" class="archive-filter-submit">
+        Найти
+      </button>
 
-{% if query or selected_year %}
-  <p class="archive-results-count">
-    Найдено новостей: {{ page_obj.paginator.count }}
-  </p>
-{% endif %}
+      <a
+        href="{% url 'news_archive' %}"
+        class="archive-filter-reset"
+      >
+        Сбросить
+      </a>
+    </div>
 
+  </form>
+
+  <!-- Количество найденных новостей -->
+  {% if query or selected_year %}
+    <p class="archive-results-count">
+      Найдено новостей: {{ page_obj.paginator.count }}
+    </p>
+  {% endif %}
+
+  <!-- Карточки новостей -->
   <div class="news-archive-grid">
 
     {% for item in news_cards %}
 
       <article class="archive-card">
 
-        <a href="{% pageurl item.page %}" class="archive-card-image">
+        <!-- Обложка -->
+        <a href="{{ item.url }}" class="archive-card-image">
 
-          {% if item.page.main_image %}
-
-            {% image item.page.main_image fill-640x360 as cover %}
-
+          {% if item.image_url %}
             <img
-              src="{{ cover.url }}"
-              alt="{{ item.page.main_image.title }}"
+              src="{{ item.image_url }}"
+              alt=""
               loading="lazy"
             >
-
           {% else %}
-
             <div class="archive-image-placeholder">
               <span>Новости библиотеки</span>
             </div>
-
           {% endif %}
 
         </a>
 
+        <!-- Содержание карточки -->
         <div class="archive-card-content">
 
           <div class="archive-card-date">
-            {{ item.page.sort_date|date:"d.m.Y" }}
+            {{ item.date|date:"d.m.Y" }}
           </div>
 
           <h2>
-            <a href="{% pageurl item.page %}">
-              {{ item.page.title }}
+            <a href="{{ item.url }}">
+              {{ item.title }}
             </a>
           </h2>
 
@@ -106,7 +113,7 @@
             <p>{{ item.preview }}</p>
           {% endif %}
 
-          <a href="{% pageurl item.page %}" class="archive-card-more">
+          <a href="{{ item.url }}" class="archive-card-more">
             Читать далее →
           </a>
 
@@ -114,46 +121,53 @@
 
       </article>
 
-{% empty %}
-  {% if query or selected_year %}
-    <p>По заданным условиям новости не найдены.</p>
-  {% else %}
-    <p>Пока нет опубликованных новостей.</p>
-  {% endif %}
+    {% empty %}
+
+      {% if query or selected_year %}
+        <p>По заданным условиям новости не найдены.</p>
+      {% else %}
+        <p>Пока нет опубликованных новостей.</p>
+      {% endif %}
 
     {% endfor %}
 
   </div>
 
+  <!-- Пагинация -->
   {% if page_obj.has_other_pages %}
 
-<nav class="archive-pagination" aria-label="Страницы новостей">
+    <nav
+      class="archive-pagination"
+      aria-label="Страницы новостей"
+    >
 
-  {% if page_obj.has_previous %}
-    <a href="{% querystring page=page_obj.previous_page_number %}">
-      ← Назад
-    </a>
-  {% endif %}
+      {% if page_obj.has_previous %}
+        <a href="{% querystring page=page_obj.previous_page_number %}">
+          ← Назад
+        </a>
+      {% endif %}
 
-  {% for number in page_obj.paginator.page_range %}
-    {% if number == page_obj.number %}
-      <span class="active" aria-current="page">
-        {{ number }}
-      </span>
-    {% else %}
-      <a href="{% querystring page=number %}">
-        {{ number }}
-      </a>
-    {% endif %}
-  {% endfor %}
+      {% for number in page_obj.paginator.page_range %}
 
-  {% if page_obj.has_next %}
-    <a href="{% querystring page=page_obj.next_page_number %}">
-      Далее →
-    </a>
-  {% endif %}
+        {% if number == page_obj.number %}
+          <span class="active" aria-current="page">
+            {{ number }}
+          </span>
+        {% else %}
+          <a href="{% querystring page=number %}">
+            {{ number }}
+          </a>
+        {% endif %}
 
-</nav>
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a href="{% querystring page=page_obj.next_page_number %}">
+          Далее →
+        </a>
+      {% endif %}
+
+    </nav>
 
   {% endif %}
 

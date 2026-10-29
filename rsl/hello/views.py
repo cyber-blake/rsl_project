@@ -14,56 +14,90 @@ from django.utils.html import strip_tags
 from django.utils.text import Truncator
 from django.core.paginator import Paginator
 
-def index(request):
-    # Получаем 5 последних опубликованных новостей Wagtail
-    pages = (
-        NewsPage.objects
-        .live()
-        .public()
-        .annotate(
-            sort_date=Coalesce(
-                "publication_date",
-                "first_published_at",
-            )
-        )
-        .order_by("-sort_date")[:5]
-    )
 
-    latest_news = []
+def get_all_news(request):
+    """Объединяет новости Django и Wagtail."""
 
-    for page in pages:
+    news_list = []
+
+    def make_preview(text):
+        text = " ".join(strip_tags(text).split())
+        sentences = re.split(r"(?<=[.!?])\s+", text)
+        return Truncator(" ".join(sentences[:2])).chars(220)
+
+    # 1. Старые новости Django
+    for article in Article.objects.all():
+        news_list.append({
+            "title": article.title,
+            "date": article.pub_date,
+            "preview": make_preview(article.body),
+            "search_text": (
+                article.title + " " + article.body
+            ).casefold(),
+            "url": reverse("news_page", args=[article.pk]),
+            "image_url": (
+                article.main_image.url
+                if article.main_image else None
+            ),
+        })
+
+    # 2. Новости Wagtail
+    for page in NewsPage.objects.live().public():
+
         paragraphs = []
+        search_parts = [page.title]
 
-        # Извлекаем текст из абзацев StreamField
         for block in page.body:
-            if block.block_type == "paragraph":
-                text = strip_tags(str(block.value)).strip()
+            if block.block_type in ("paragraph", "heading", "quote"):
+                text = strip_tags(str(block.value))
+                search_parts.append(text)
 
-                if text:
+                if block.block_type == "paragraph":
                     paragraphs.append(text)
 
         full_text = " ".join(paragraphs)
 
-        # Первые два предложения
-        sentences = re.split(r"(?<=[.!?])\s+", full_text)
-        preview = " ".join(sentences[:2])
+        image_url = None
 
-        # Не более 280 символов
-        preview = Truncator(preview).chars(280)
+        if page.main_image:
+            image_url = page.main_image.get_rendition(
+                "fill-640x360"
+            ).url
 
-        latest_news.append({
-            "page": page,
-            "preview": preview,
+        news_list.append({
+            "title": page.title,
+            "date": (
+                page.first_published_at
+                or page.publication_date
+                or page.last_published_at
+            ),
+            "preview": make_preview(full_text),
+            "search_text": " ".join(search_parts).casefold(),
+            "url": page.get_url(request=request),
+            "image_url": image_url,
         })
+
+    # 3. Единая сортировка: новые сначала
+    news_list.sort(
+        key=lambda item: (
+            item["date"].timestamp()
+            if item["date"] else 0
+        ),
+        reverse=True,
+    )
+
+    return news_list
+
+
+
+def index(request):
+    latest_news = get_all_news(request)[:5]
 
     return render(
         request,
         "index.html",
-        {
-            "latest_news": latest_news,
-        },
+        {"latest_news": latest_news},
     )
-
 
 # пробные 4 страницы с шаблонами оформления, пока пусть будут
 def news_one(request):
@@ -233,7 +267,133 @@ def add_wagtail_comment(request, pk):
     return redirect(page.get_url(request=request))
 
 
+
+
 def news_archive(request):
+    query = request.GET.get("q", "").strip()[:100]
+    year_param = request.GET.get("year", "").strip()
+
+    # Получаем все новости из двух моделей
+    news = get_all_news(request)
+
+    # Все доступные годы
+    years = sorted(
+        {
+            item["date"].year
+            for item in news
+            if item["date"]
+        },
+        reverse=True,
+    )
+
+    selected_year = None
+
+    if year_param.isdigit():
+        year = int(year_param)
+
+        if year in years:
+            selected_year = year
+
+    # Фильтрация по году
+    if selected_year:
+        news = [
+            item for item in news
+            if item["date"]
+            and item["date"].year == selected_year
+        ]
+
+    # Поиск по заголовку и содержимому
+    if query:
+        terms = query.casefold().split()
+
+        news = [
+            item for item in news
+            if all(
+                term in item["search_text"]
+                for term in terms
+            )
+        ]
+
+    # Пагинация
+    paginator = Paginator(news, 6)
+    page_obj = paginator.get_page(
+        request.GET.get("page")
+    )
+
+    return render(
+        request,
+        "news_archive.html",
+        {
+            "news_cards": page_obj.object_list,
+            "page_obj": page_obj,
+            "query": query,
+            "years": years,
+            "selected_year": selected_year,
+        },
+    )
+
+    query = request.GET.get("q", "").strip()[:100]
+    year_param = request.GET.get("year", "").strip()
+
+    # Получаем все новости из двух моделей
+    news = get_all_news(request)
+
+    # Все доступные годы
+    years = sorted(
+        {
+            item["date"].year
+            for item in news
+            if item["date"]
+        },
+        reverse=True,
+    )
+
+    selected_year = None
+
+    if year_param.isdigit():
+        year = int(year_param)
+
+        if year in years:
+            selected_year = year
+
+    # Фильтрация по году
+    if selected_year:
+        news = [
+            item for item in news
+            if item["date"]
+            and item["date"].year == selected_year
+        ]
+
+    # Поиск по заголовку и содержимому
+    if query:
+        terms = query.casefold().split()
+
+        news = [
+            item for item in news
+            if all(
+                term in item["search_text"]
+                for term in terms
+            )
+        ]
+
+    # Пагинация
+    paginator = Paginator(news, 6)
+    page_obj = paginator.get_page(
+        request.GET.get("page")
+    )
+
+    return render(
+        request,
+        "news_archive.html",
+        {
+            "news_cards": page_obj.object_list,
+            "page_obj": page_obj,
+            "query": query,
+            "years": years,
+            "selected_year": selected_year,
+        },
+    )
+
     query = request.GET.get("q", "").strip()[:100]
     year_param = request.GET.get("year", "").strip()
 
