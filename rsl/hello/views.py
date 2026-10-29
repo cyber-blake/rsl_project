@@ -15,8 +15,9 @@ from django.utils.text import Truncator
 from django.core.paginator import Paginator
 
 
+
 def get_all_news(request):
-    """Объединяет новости Django и Wagtail."""
+    """Получает все опубликованные новости Wagtail."""
 
     news_list = []
 
@@ -25,25 +26,9 @@ def get_all_news(request):
         sentences = re.split(r"(?<=[.!?])\s+", text)
         return Truncator(" ".join(sentences[:2])).chars(220)
 
-    # 1. Старые новости Django
-    for article in Article.objects.all():
-        news_list.append({
-            "title": article.title,
-            "date": article.pub_date,
-            "preview": make_preview(article.body),
-            "search_text": (
-                article.title + " " + article.body
-            ).casefold(),
-            "url": reverse("news_page", args=[article.pk]),
-            "image_url": (
-                article.main_image.url
-                if article.main_image else None
-            ),
-        })
+    pages = NewsPage.objects.live().public()
 
-    # 2. Новости Wagtail
-    for page in NewsPage.objects.live().public():
-
+    for page in pages:
         paragraphs = []
         search_parts = [page.title]
 
@@ -67,8 +52,8 @@ def get_all_news(request):
         news_list.append({
             "title": page.title,
             "date": (
-                page.first_published_at
-                or page.publication_date
+                page.publication_date
+                or page.first_published_at
                 or page.last_published_at
             ),
             "preview": make_preview(full_text),
@@ -77,7 +62,6 @@ def get_all_news(request):
             "image_url": image_url,
         })
 
-    # 3. Единая сортировка: новые сначала
     news_list.sort(
         key=lambda item: (
             item["date"].timestamp()
@@ -87,7 +71,6 @@ def get_all_news(request):
     )
 
     return news_list
-
 
 
 def index(request):
@@ -123,6 +106,17 @@ def news_four(request):
 def news_page(request, pk):
     form = CommentForm()
     article = get_object_or_404(Article, pk=pk)
+    wagtail_page = NewsPage.objects.filter(
+        legacy_article_id=article.pk,
+        live=True,
+    ).first()
+
+    if wagtail_page:
+        new_url = wagtail_page.get_url(request=request)
+
+        if new_url:
+            return redirect(new_url, permanent=True)
+        
     comments_list = Comment.objects.filter(approved=True, article=article).order_by(
         "-pub_date"
     )
@@ -268,70 +262,7 @@ def add_wagtail_comment(request, pk):
 
 
 
-
 def news_archive(request):
-    query = request.GET.get("q", "").strip()[:100]
-    year_param = request.GET.get("year", "").strip()
-
-    # Получаем все новости из двух моделей
-    news = get_all_news(request)
-
-    # Все доступные годы
-    years = sorted(
-        {
-            item["date"].year
-            for item in news
-            if item["date"]
-        },
-        reverse=True,
-    )
-
-    selected_year = None
-
-    if year_param.isdigit():
-        year = int(year_param)
-
-        if year in years:
-            selected_year = year
-
-    # Фильтрация по году
-    if selected_year:
-        news = [
-            item for item in news
-            if item["date"]
-            and item["date"].year == selected_year
-        ]
-
-    # Поиск по заголовку и содержимому
-    if query:
-        terms = query.casefold().split()
-
-        news = [
-            item for item in news
-            if all(
-                term in item["search_text"]
-                for term in terms
-            )
-        ]
-
-    # Пагинация
-    paginator = Paginator(news, 6)
-    page_obj = paginator.get_page(
-        request.GET.get("page")
-    )
-
-    return render(
-        request,
-        "news_archive.html",
-        {
-            "news_cards": page_obj.object_list,
-            "page_obj": page_obj,
-            "query": query,
-            "years": years,
-            "selected_year": selected_year,
-        },
-    )
-
     query = request.GET.get("q", "").strip()[:100]
     year_param = request.GET.get("year", "").strip()
 

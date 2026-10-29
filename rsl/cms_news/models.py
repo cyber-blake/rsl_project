@@ -52,6 +52,15 @@ class NewsPage(Page):
         verbose_name="Обложка",
     )
 
+    legacy_article = models.OneToOneField(
+        "hello.Article",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="wagtail_news_page",
+        verbose_name="Исходная статья Django",
+    )
+    
     body = StreamField(
         [
             (
