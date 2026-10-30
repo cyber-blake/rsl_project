@@ -82,26 +82,6 @@ def index(request):
         {"latest_news": latest_news},
     )
 
-# пробные 4 страницы с шаблонами оформления, пока пусть будут
-def news_one(request):
-    """Отображает шаблон news-1.html"""
-    return render(request, "news-1.html")
-
-
-def news_two(request):
-    """Отображает шаблон news-2.html"""
-    return render(request, "news-2.html")
-
-
-def news_three(request):
-    """Отображает шаблон news-3.html"""
-    return render(request, "news-3.html")
-
-
-def news_four(request):
-    """Отображает шаблон news-4.html"""
-    return render(request, "news-4.html")
-
 
 def news_page(request, pk):
     form = CommentForm()
@@ -136,45 +116,6 @@ def news_page(request, pk):
     }
     return render(request, "news_page.html", context)
 
-
-# def get_latest_news(request):
-#     latest_news_list = Article.objects.order_by("-pub_date")[:4]
-#     context = {"latest_news_list": latest_news_list}
-#     return render(request, "news_page.html", context)
-
-
-def add_comment(request, pk):
-    article = get_object_or_404(Article, pk=pk)
-
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-
-        if form.is_valid():
-            Comment.objects.create(
-                article=article,
-                email=form.cleaned_data["email"],
-                commentText=form.cleaned_data["commentText"],
-                author=request.user,
-            )
-            # ✅ редирект ТОЛЬКО при успехе
-            return redirect("news_page", pk=pk)
-
-        comments_list = Comment.objects.filter(approved=True, article=article).order_by(
-            "-pub_date"
-        )
-
-        return render(
-            request,
-            "news_page.html",
-            {
-                "article": article,
-                "form": form,  # форма с ошибками
-                "comments": comments_list,
-            },
-        )
-
-    # защита от прямого GET-запроса
-    return redirect("news_page", pk=pk)
 
 
 @login_required

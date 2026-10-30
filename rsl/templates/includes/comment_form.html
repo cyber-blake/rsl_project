@@ -3,11 +3,7 @@
 <div class="comment-form">
     <h3>Оставьте ваш комментарий, {{ user.username }}</h3>
 
-    {% if page %}
-        <form method="post" action="{% url 'add_wagtail_comment' page.pk %}">
-    {% elif article %}
-        <form method="post" action="{% url 'add_comment' article.pk %}">
-    {% endif %}
+<form method="post" action="{% url 'add_wagtail_comment' page.pk %}">
 
         {% csrf_token %}
 
