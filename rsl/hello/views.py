@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect,HttpResponseForbidden
-from .models import Comment, Article
+from .models import Comment
 from .forms import CommentForm
 from django.urls import reverse
 from django.views.decorators.http import require_POST
@@ -104,10 +104,11 @@ def delete_comment(request, pk):
         return HttpResponseForbidden("Нельзя удалить чужой комментарий")
 
     # Определяем страницу для возврата
-    if comment.news_page_id:
-        redirect_url = comment.news_page.get_url(request=request)
-    else:
-        redirect_url = reverse("news_page", kwargs={"pk": comment.article_id})
+    redirect_url = (
+        comment.news_page.get_url(request=request)
+        if comment.news_page_id
+        else "/news/"
+    )
 
     # Мягкое удаление
     comment.approved = False
