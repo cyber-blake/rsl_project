@@ -1,0 +1,18 @@
+<div class="content-article-meta" aria-label="Сведения о публикации">
+  {% if page.publication_date %}
+    <span class="content-article-meta__detail">{{ page.publication_date|date:"d.m.Y" }}</span>
+  {% elif page.first_published_at %}
+    <span class="content-article-meta__detail">{{ page.first_published_at|date:"d.m.Y" }}</span>
+  {% endif %}
+  {% if value.reading_minutes %}
+    <span class="content-article-meta__detail">{{ value.reading_minutes }} мин. чтения</span>
+  {% endif %}
+  {% if value.author %}
+    <span class="content-article-meta__detail">Автор: {{ value.author }}</span>
+  {% endif %}
+  {% if value.tags %}
+    <div class="content-article-meta__tags">
+      {% for tag in value.tags %}<span class="content-article-meta__tag">{{ tag }}</span>{% endfor %}
+    </div>
+  {% endif %}
+</div>

@@ -6,6 +6,14 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.images.blocks import ImageBlock
 from wagtail.admin.widgets import SlugInput
 
+from .blocks import (
+    EventDetailsBlock,
+    PersonCardBlock,
+    NoticeBlock,
+    FAQBlock,
+    ArticleMetaBlock,
+)
+
 
 class CarouselSlideBlock(blocks.StructBlock):
     image = ImageBlock(
@@ -96,6 +104,28 @@ class NewsPage(Page):
                 "carousel",
                 CarouselBlock(),
             ),
+            
+            (
+                "event_details",
+                EventDetailsBlock(),
+            ),
+            (
+                "person_card",
+                PersonCardBlock(),
+            ),
+            (
+                "notice",
+                NoticeBlock(),
+            ),
+            (
+                "faq",
+                FAQBlock(),
+            ),
+            (
+                "article_meta",
+                ArticleMetaBlock(),
+            ),
+
 
         ],
         use_json_field=True,

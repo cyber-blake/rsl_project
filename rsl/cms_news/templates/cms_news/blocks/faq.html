@@ -1,0 +1,11 @@
+<section class="content-faq" aria-label="{{ value.heading }}">
+  <h2>{{ value.heading }}</h2>
+  <div class="content-faq__items">
+    {% for entry in value.questions %}
+      <details class="content-faq__item">
+        <summary>{{ entry.question }}</summary>
+        <div class="content-faq__answer">{{ entry.answer }}</div>
+      </details>
+    {% endfor %}
+  </div>
+</section>

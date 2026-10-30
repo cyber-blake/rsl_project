@@ -1,0 +1,13 @@
+<section class="content-event-details" aria-label="{{ value.heading }}">
+  <h2>{{ value.heading }}</h2>
+  <dl class="content-event-details__grid">
+    <div><dt>Дата</dt><dd>{{ value.event_date|date:"d.m.Y" }}</dd></div>
+    {% if value.start_time %}
+      <div><dt>Время</dt><dd>{{ value.start_time|time:"H:i" }}{% if value.end_time %}–{{ value.end_time|time:"H:i" }}{% endif %}</dd></div>
+    {% endif %}
+    {% if value.place %}<div><dt>Место</dt><dd>{{ value.place }}</dd></div>{% endif %}
+    {% if value.admission %}<div><dt>Вход</dt><dd>{{ value.admission }}</dd></div>{% endif %}
+    {% if value.registration %}<div><dt>Регистрация</dt><dd>{{ value.registration }}</dd></div>{% endif %}
+    {% if value.contact %}<div><dt>Контакт</dt><dd>{{ value.contact }}</dd></div>{% endif %}
+  </dl>
+</section>

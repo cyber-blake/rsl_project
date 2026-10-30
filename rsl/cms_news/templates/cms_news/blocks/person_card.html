@@ -1,0 +1,13 @@
+{% load wagtailimages_tags %}
+<section class="content-person-card" aria-label="{{ value.heading }}">
+  {% if value.photo %}
+    <div class="content-person-card__photo">
+      {% image value.photo fill-240x240 %}
+    </div>
+  {% endif %}
+  <div class="content-person-card__body">
+    <h2>{{ value.heading }}</h2>
+    {% if value.name %}<p class="content-person-card__name">{{ value.name }}</p>{% endif %}
+    <div class="content-person-card__biography">{{ value.biography }}</div>
+  </div>
+</section>
