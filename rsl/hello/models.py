@@ -4,61 +4,30 @@ import uuid
 from django.contrib.auth.models import User
 from cms_news.models import NewsPage
 
-class Article(models.Model):
-    # Обязательные поля
-    title = models.CharField(_("Заголовок"), max_length=200)
-    slug = models.SlugField(_("Слаг"), max_length=200, unique=True)
-    body = models.TextField(_("Текст статьи"))
-    image = models.ForeignKey(
-        "images.Image",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="articles",
-    )
-    # Поле для главного изображения (обложки статьи)
-    main_image = models.ImageField(
-        _("Главное изображение"), upload_to="news_images", blank=True, null=True
-    )
-
-    pub_date = models.DateTimeField(_("Дата публикации"), auto_now_add=True)
-
-    class Meta:
-        verbose_name = _("Статья")
-        verbose_name_plural = _("Статьи")
-        ordering = ["-pub_date"]
-
-    def __str__(self):
-        return self.title
-
 
 class Comment(models.Model):
-    """
-    Модель для хранения комментариев
-    """
+    """Модель для хранения комментариев."""
 
     commentText = models.TextField(verbose_name="Текст комментария")
     pub_date = models.DateTimeField(_("Дата создания"), auto_now_add=True)
     approved = models.BooleanField(_("Одобрен"), default=True)
-    article = models.ForeignKey(
-        Article,
+
+    news_page = models.ForeignKey(
+        NewsPage,
         on_delete=models.CASCADE,
         related_name="comments",
         null=True,
         blank=True,
+        verbose_name="Новость Wagtail",
     )
-    news_page = models.ForeignKey(
-    NewsPage,
+
+    email = models.EmailField(_("Эл. почта"), max_length=254)
+
+    author = models.ForeignKey(
+    User,
     on_delete=models.CASCADE,
     related_name="comments",
-    null=True,
-    blank=True,
-    verbose_name="Новость Wagtail",
-    )
-    email = models.EmailField(_("Эл. почта"), max_length=254)
-    # author = models.CharField(_("Автор комментария"), max_length=40)
-    author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="comments", max_length=40
+    max_length=40,
     )
 
     def can_edit(self, user):
@@ -71,19 +40,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Комментарий "{self.commentText}"'
-
-
-# # --- Вариант для нескольких изображений (если нужно) ---
-# class ArticleImage(models.Model):
-#     article = models.ForeignKey(
-#         Article,
-#         on_delete=models.CASCADE,
-#         related_name="images",
-#         verbose_name=_("Статья"),
-#     )
-#     image = models.ImageField(_("Изображение"), upload_to="article_gallery/")
-#     caption = models.CharField(_("Подпись"), max_length=255, blank=True)
-
-#     class Meta:
-#         verbose_name = _("Изображение статьи")
-#         verbose_name_plural = _("Изображения статьи")
