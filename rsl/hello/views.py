@@ -147,7 +147,7 @@ def profile_view(request):
     comments = (
         Comment.objects
         .filter(author=request.user, approved=True)
-        .select_related("article", "news_page")
+        .select_related("news_page")
         .order_by("-pub_date")
     )
 
