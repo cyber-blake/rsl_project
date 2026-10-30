@@ -1,0 +1,8 @@
+<section class="home-section home-theme-white">
+  <div class="home-shell">
+    {% if value.heading %}<h2 class="home-section-heading">{{ value.heading }}</h2>{% endif %}
+    <div class="home-actions">
+      {% for link in value.links %}<a class="home-pill" href="{{ link.url }}">{{ link.label }} <span aria-hidden="true">↗</span></a>{% endfor %}
+    </div>
+  </div>
+</section>

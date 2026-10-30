@@ -6,8 +6,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from authorization import urls
 from wagtail.admin import urls as wagtailadmin_urls
+from home.views import home_preview
 
 urlpatterns = [
+    path("home-preview/", home_preview, name="home_preview"),
     path("", views.index, name="index"),
     path("admin/", admin.site.urls),
     path("news/<int:pk>/", views.news_page, name="news_page"),

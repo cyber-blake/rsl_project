@@ -1,0 +1,18 @@
+{% load wagtailimages_tags %}
+<section class="home-section home-theme-sage">
+  <div class="home-shell">
+    {% if value.heading %}<h2 class="home-section-heading">{{ value.heading }}</h2>{% endif %}
+    <div class="home-card-grid">
+      {% for card in value.cards %}
+      <article class="home-card">
+        {% if card.image %}<div class="home-card-media">{% image card.image fill-800x500 %}</div>{% endif %}
+        <div class="home-card-content">
+          <h3>{{ card.title }}</h3>
+          {% if card.description %}<p>{{ card.description }}</p>{% endif %}
+          {% if card.link_url and card.link_label %}<a class="home-pill" href="{{ card.link_url }}">{{ card.link_label }} <span aria-hidden="true">↗</span></a>{% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

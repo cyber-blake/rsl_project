@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     "events",
     "analytics",
     "cms_news",
+    "home",
 ]
 
 MIDDLEWARE = [

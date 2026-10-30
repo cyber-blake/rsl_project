@@ -1,0 +1,41 @@
+/* Стили конструктора главной. Все селекторы изолированы внутри .rsl-home. */
+.rsl-home{--home-ink:#222720;--home-sage:#edf4e5;--home-cream:#faf8f1;color:var(--home-ink);font-family:inherit}
+.rsl-home *{box-sizing:border-box}
+.rsl-home .home-shell{max-width:1320px;margin:0 auto;padding-left:clamp(18px,4vw,64px);padding-right:clamp(18px,4vw,64px)}
+.rsl-home .home-theme-sage{background:var(--home-sage)}
+.rsl-home .home-theme-cream{background:var(--home-cream)}
+.rsl-home .home-theme-white{background:#fff}
+.rsl-home h1,.rsl-home h2,.rsl-home h3{color:var(--home-ink);line-height:1.16;margin:0 0 16px}
+.rsl-home h1{font-size:clamp(2.2rem,4.2vw,4.4rem)}
+.rsl-home h2{font-size:clamp(1.65rem,2.7vw,2.55rem)}
+.rsl-home h3{font-size:clamp(1.25rem,1.7vw,1.7rem)}
+.rsl-home p{margin:0 0 20px;line-height:1.6}
+.rsl-home .home-hero-grid{display:grid;grid-template-columns:1fr 1fr;min-height:480px;align-items:center;gap:32px}
+.rsl-home .home-hero-copy{padding:56px 0}
+.rsl-home .home-eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:.8rem;font-weight:700}
+.rsl-home .home-lead{font-size:1.08rem;max-width:620px}
+.rsl-home .home-hero-media{align-self:stretch;min-height:360px;overflow:hidden}
+.rsl-home .home-hero-media img{width:100%;height:100%;object-fit:cover;display:block}
+.rsl-home .home-section{padding:64px 0}
+.rsl-home .home-section-heading{margin-bottom:30px}
+.rsl-home .home-actions{display:flex;gap:10px;flex-wrap:wrap}
+.rsl-home .home-pill{display:inline-flex;align-items:center;gap:12px;padding:10px 16px;border:1px solid #798477;border-radius:999px;color:#29332a;background:transparent;font-size:.92rem;font-weight:600;text-decoration:none;line-height:1.3}
+.rsl-home .home-pill:hover{background:#223426;color:#fff;text-decoration:none}
+.rsl-home .home-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.rsl-home .home-card{min-width:0;display:flex;flex-direction:column}
+.rsl-home .home-card-media{aspect-ratio:1.65;overflow:hidden;background:#dfe5da;border-radius:5px}
+.rsl-home .home-card-media img{width:100%;height:100%;object-fit:cover;display:block}
+.rsl-home .home-card-content{padding-top:16px}
+.rsl-home .home-card-content p{font-size:.96rem}
+.rsl-home .home-card-content h3 a{color:inherit}
+.rsl-home .home-card-content .home-pill{margin-top:3px}
+.rsl-home .home-date{font-size:.82rem!important;color:#657064}
+.rsl-home .home-heading-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.rsl-home .home-promo-grid{display:grid;grid-template-columns:1fr 1fr;min-height:410px}
+.rsl-home .home-promo-media{min-height:350px;background:#e0e8d9}
+.rsl-home .home-promo-media img{display:block;width:100%;height:100%;object-fit:cover}
+.rsl-home .home-promo-copy{padding:clamp(36px,6vw,96px);display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.rsl-home .home-image-right .home-promo-media{order:2}
+.rsl-home .home-image-right .home-promo-copy{order:1}
+@media(max-width:900px){.rsl-home .home-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.rsl-home .home-hero-grid{grid-template-columns:1fr}.rsl-home .home-hero-copy{padding:42px 0 0}.rsl-home .home-hero-media{height:320px}.rsl-home .home-promo-copy{padding:36px}}
+@media(max-width:600px){.rsl-home .home-section{padding:42px 0}.rsl-home .home-card-grid,.rsl-home .home-promo-grid{grid-template-columns:1fr}.rsl-home .home-promo-media{min-height:230px}.rsl-home .home-image-right .home-promo-media,.rsl-home .home-image-right .home-promo-copy{order:initial}.rsl-home .home-hero-media{min-height:240px;height:270px}}
