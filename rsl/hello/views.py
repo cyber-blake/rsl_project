@@ -15,7 +15,6 @@ from django.utils.text import Truncator
 from django.core.paginator import Paginator
 
 
-
 def get_all_news(request):
     """Получает все опубликованные новости Wagtail."""
 
@@ -83,39 +82,16 @@ def index(request):
     )
 
 
+
 def news_page(request, pk):
-    form = CommentForm()
-    article = get_object_or_404(Article, pk=pk)
-    wagtail_page = NewsPage.objects.filter(
-        legacy_article_id=article.pk,
-        live=True,
-    ).first()
+    """Перенаправление старого ID новости на страницу Wagtail."""
 
-    if wagtail_page:
-        new_url = wagtail_page.get_url(request=request)
-
-        if new_url:
-            return redirect(new_url, permanent=True)
-        
-    comments_list = Comment.objects.filter(approved=True, article=article).order_by(
-        "-pub_date"
+    page = get_object_or_404(
+        NewsPage.objects.live().public(),
+        legacy_source_id=pk,
     )
-    edit_id = request.GET.get("edit")
-    edit_comment = None
-    edit_form = None
-    if edit_id:
-        edit_comment = get_object_or_404(Comment, pk=edit_id)
-        if request.user == edit_comment.author:
-            edit_form = CommentEditForm(instance=edit_comment)
-    context = {
-        "article": article,
-        "comments": comments_list,
-        "form": form,
-        "edit_comment": edit_comment,
-        "edit_form": edit_form,
-    }
-    return render(request, "news_page.html", context)
 
+    return redirect(page.get_url(request=request), permanent=True)
 
 
 @login_required

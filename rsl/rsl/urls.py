@@ -10,9 +10,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 urlpatterns = [
     path("", views.index, name="index"),
     path("admin/", admin.site.urls),
-    path(
-        "news/<int:pk>/", views.news_page, name="news_page"
-    ),  # как минимум функция и вью одноименные
+    path("news/<int:pk>/", views.news_page, name="news_page"),
     path("auth/", include("authorization.urls")),
     path("news/<int:pk>/delete-comment/", views.delete_comment, name="delete_comment"),
     path("comment/edit/<int:pk>/", views.edit_comment, name="edit_comment"),

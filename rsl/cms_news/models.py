@@ -69,6 +69,14 @@ class NewsPage(Page):
         verbose_name="Исходная статья Django",
     )
     
+    legacy_source_id = models.PositiveIntegerField(
+    "ID старой статьи Django",
+    null=True,
+    blank=True,
+    unique=True,
+    editable=False,
+    )
+    
     body = StreamField(
         [
             (
