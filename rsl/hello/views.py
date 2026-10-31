@@ -184,10 +184,8 @@ def news_archive(request):
     query = request.GET.get("q", "").strip()[:100]
     year_param = request.GET.get("year", "").strip()
 
-    # Получаем все новости из двух моделей
     news = get_all_news(request)
 
-    # Все доступные годы
     years = sorted(
         {
             item["date"].year
@@ -199,37 +197,32 @@ def news_archive(request):
 
     selected_year = None
 
-    if year_param.isdigit():
+    if len(year_param) == 4 and year_param.isdigit():
         year = int(year_param)
 
         if year in years:
             selected_year = year
 
-    # Фильтрация по году
-    if selected_year:
+    if selected_year is not None:
         news = [
             item for item in news
             if item["date"]
             and item["date"].year == selected_year
         ]
 
-    # Поиск по заголовку и содержимому
     if query:
         terms = query.casefold().split()
 
         news = [
             item for item in news
             if all(
-                term in item["search_text"]
+                term in (item.get("search_text") or "").casefold()
                 for term in terms
             )
         ]
 
-    # Пагинация
     paginator = Paginator(news, 6)
-    page_obj = paginator.get_page(
-        request.GET.get("page")
-    )
+    page_obj = paginator.get_page(request.GET.get("page"))
 
     return render(
         request,
@@ -240,152 +233,5 @@ def news_archive(request):
             "query": query,
             "years": years,
             "selected_year": selected_year,
-        },
-    )
-
-    query = request.GET.get("q", "").strip()[:100]
-    year_param = request.GET.get("year", "").strip()
-
-    news = (
-        NewsPage.objects
-        .live()
-        .public()
-        .annotate(
-            sort_date=Coalesce(
-                "publication_date",
-                "first_published_at",
-            )
-        )
-        .order_by("-sort_date", "-pk")
-    )
-
-    # Годы, за которые есть опубликованные новости
-    years = sorted(
-        {
-            date.year
-            for date in news.values_list("sort_date", flat=True)
-            if date is not None
-        },
-        reverse=True,
-    )
-
-    # Фильтрация по году
-    selected_year = None
-
-    if len(year_param) == 4 and year_param.isdigit():
-        selected_year = int(year_param)
-        news = news.filter(sort_date__year=selected_year)
-
-    # Поиск по заголовку и содержимому новости
-    if query:
-        terms = query.casefold().split()
-        matched_news = []
-
-        for page in news:
-            text_parts = [page.title]
-
-            for block in page.body:
-                if block.block_type in (
-                    "paragraph",
-                    "heading",
-                    "quote",
-                ):
-                    text_parts.append(
-                        strip_tags(str(block.value))
-                    )
-
-            searchable_text = " ".join(text_parts).casefold()
-
-            if all(term in searchable_text for term in terms):
-                matched_news.append(page)
-
-        news = matched_news
-
-    # Пагинация по 6 новостей
-    paginator = Paginator(news, 6)
-    page_obj = paginator.get_page(request.GET.get("page"))
-
-    news_cards = []
-
-    for page in page_obj.object_list:
-        paragraphs = []
-
-        for block in page.body:
-            if block.block_type == "paragraph":
-                text = strip_tags(str(block.value)).strip()
-
-                if text:
-                    paragraphs.append(text)
-
-        full_text = " ".join(paragraphs)
-        sentences = re.split(r"(?<=[.!?])\s+", full_text)
-
-        preview = Truncator(
-            " ".join(sentences[:2])
-        ).chars(220)
-
-        news_cards.append({
-            "page": page,
-            "preview": preview,
-        })
-
-    return render(
-        request,
-        "news_archive.html",
-        {
-            "news_cards": news_cards,
-            "page_obj": page_obj,
-            "query": query,
-            "years": years,
-            "selected_year": selected_year,
-        },
-    )
-
-    news = (
-        NewsPage.objects
-        .live()
-        .public()
-        .annotate(
-            sort_date=Coalesce(
-                "publication_date",
-                "first_published_at",
-            )
-        )
-        .order_by("-sort_date", "-pk")
-    )
-
-    paginator = Paginator(news, 6)
-    page_obj = paginator.get_page(request.GET.get("page"))
-
-    news_cards = []
-
-    for page in page_obj.object_list:
-        paragraphs = []
-
-        for block in page.body:
-            if block.block_type == "paragraph":
-                text = strip_tags(str(block.value)).strip()
-
-                if text:
-                    paragraphs.append(text)
-
-        full_text = " ".join(paragraphs)
-        sentences = re.split(r"(?<=[.!?])\s+", full_text)
-
-        preview = Truncator(
-            " ".join(sentences[:2])
-        ).chars(220)
-
-        news_cards.append({
-            "page": page,
-            "preview": preview,
-        })
-
-    return render(
-        request,
-        "news_archive.html",
-        {
-            "news_cards": news_cards,
-            "page_obj": page_obj,
         },
     )

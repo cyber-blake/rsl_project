@@ -1,47 +1,101 @@
-
-<header class="site-header">
-  <div class="site-header-top">
-    <div class="site-brand">
-      <h1>
-        <a href="{% url 'index' %}">
-          Центральная городская библиотека
-        </a>
-      </h1>
-      <p>Культурный и информационный центр города</p>
-    </div>
-
-    <div class="site-account">
-      {% if user.is_authenticated %}
-        <a href="{% url 'profile' %}">
-          Мой профиль
-        </a>
-      {% else %}
-        <a href="{% url 'login' %}">
-          Войти
-        </a>
-      {% endif %}
-    </div>
+{% url 'search' as header_search_url %}
+<style>
+.rsl-header { width:100%; min-width:0; margin:0; padding:0; background:#fff; color:#243629; border-bottom:1px solid #dce3d8; font-family:Arial,"Segoe UI",sans-serif; }
+.rsl-header *, .rsl-header *::before, .rsl-header *::after { box-sizing:border-box; }
+.rsl-header .rsl-header-shell { max-width:1420px; margin:auto; padding:28px clamp(18px,5.6vw,92px) 0; }
+.rsl-header .rsl-header-top { display:flex; align-items:center; justify-content:space-between; gap:24px; padding-bottom:25px; }
+.rsl-header a { color:inherit; text-decoration:none; }
+.rsl-header .rsl-brand { display:flex; align-items:center; gap:15px; min-width:0; }
+.rsl-header .rsl-brand-mark { flex:none; width:48px; height:54px; color:#31533c; }
+.rsl-header .rsl-brand-title { display:block; max-width:27ch; font:500 clamp(20px,2.2vw,29px)/1.15 Georgia,serif; letter-spacing:-.025em; }
+.rsl-header .rsl-brand-caption { display:block; margin-top:7px; font-size:12px; line-height:1.5; color:#59665b; }
+.rsl-header .rsl-header-account, .rsl-header .rsl-menu-toggle { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:44px; padding:10px 18px; border:1px solid #a4b09f; border-radius:24px; background:#fff; color:#243629; font:600 14px/1.3 Arial,sans-serif; cursor:pointer; flex-shrink:0; }
+.rsl-header .rsl-menu-toggle { display:none; }
+.rsl-header .rsl-header-panel { display:flex; align-items:center; justify-content:space-between; gap:24px; border-top:1px solid #e5e9e1; }
+.rsl-header .rsl-header-nav { display:flex; flex-wrap:wrap; gap:4px 25px; margin:0; padding:0; background:transparent; }
+.rsl-header .rsl-header-nav a { display:block; padding:18px 0 15px; border-bottom:3px solid transparent; font-size:14px; font-weight:600; line-height:1.5; }
+.rsl-header .rsl-header-nav a[aria-current="page"] { border-color:#31533c; }
+.rsl-header .rsl-header-nav a:hover { color:#526e43; border-bottom-color:#a6b89a; }
+.rsl-header .rsl-header-account:hover, .rsl-header .rsl-menu-toggle:hover { background:#eef4e8; }
+.rsl-header :is(a,button,input):focus-visible { outline:3px solid #9b702d; outline-offset:4px; }
+.rsl-header .rsl-header-search { display:flex; flex:0 1 300px; min-width:0; margin:10px 0; border:1px solid #b1bdab; border-radius:24px; background:#f8faf6; }
+.rsl-header .rsl-header-search input { width:100%; min-width:0; height:42px; padding:10px 15px; border:0; border-radius:24px; background:transparent; color:#243629; font:14px Arial,sans-serif; }
+.rsl-header .rsl-header-search button { flex:none; width:44px; min-height:42px; border:0; border-radius:24px; background:transparent; color:#243629; cursor:pointer; }
+.rsl-header .rsl-header-search svg { width:19px; height:19px; vertical-align:middle; }
+.rsl-header .rsl-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+@media(max-width:900px) {
+ .rsl-header .rsl-header-shell { padding-top:20px; }
+ .rsl-header .rsl-header-top { flex-wrap:wrap; gap:16px; padding-bottom:18px; }
+ .rsl-header .rsl-brand { flex:1 1 260px; }
+ .rsl-header .rsl-brand-caption { display:none; }
+ .rsl-header.rsl-header-ready .rsl-menu-toggle { display:inline-flex; }
+ .rsl-header .rsl-header-panel { flex-direction:column; align-items:stretch; gap:10px; padding-bottom:18px; }
+ .rsl-header.rsl-header-ready .rsl-header-panel[hidden] { display:none; }
+ .rsl-header .rsl-header-nav { flex-direction:column; gap:0; }
+ .rsl-header .rsl-header-nav a { padding:13px 4px; border-bottom:1px solid #e5e9e1; }
+ .rsl-header .rsl-header-nav a[aria-current="page"] { background:#eef4e8; padding-left:12px; border-left:3px solid #31533c; }
+ .rsl-header .rsl-header-search { flex:auto; margin:4px 0 0; }
+}
+@media(max-width:480px) {
+ .rsl-header .rsl-brand { flex-basis:100%; }
+ .rsl-header .rsl-brand-mark { width:36px; height:42px; }
+ .rsl-header .rsl-brand-title { font-size:22px; overflow-wrap:anywhere; }
+ .rsl-header .rsl-menu-toggle { margin-left:auto; }
+}
+</style>
+<header class="rsl-header" data-rsl-header>
+ <div class="rsl-header-shell">
+  <div class="rsl-header-top">
+   <a class="rsl-brand" href="{% url 'index' %}">
+    <svg class="rsl-brand-mark" viewBox="0 0 48 54" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M24 12C17 7 9 6 3 7v34c8-1 14 1 21 6 7-5 13-7 21-6V7c-6-1-14 0-21 5Zm0 0v35M9 15c4 0 7 1 10 3M9 23c4 0 7 1 10 3M29 18c3-2 6-3 10-3M29 26c3-2 6-3 10-3"/></svg>
+    <span><span class="rsl-brand-title">Центральная городская библиотека</span><span class="rsl-brand-caption">Культурный и информационный центр города</span></span>
+   </a>
+   {% if user.is_authenticated %}<a class="rsl-header-account" href="{% url 'profile' %}">Мой профиль <span aria-hidden="true">↗</span></a>{% else %}<a class="rsl-header-account" href="{% url 'login' %}">Войти <span aria-hidden="true">↗</span></a>{% endif %}
+   <button class="rsl-menu-toggle" type="button" aria-expanded="true" aria-controls="rsl-header-panel"><span aria-hidden="true">☰</span> <span data-menu-label>Меню</span></button>
   </div>
-
-<nav class="site-nav" aria-label="Основная навигация">
-
-  <a href="{% url 'index' %}"
-     {% if request.path == '/' %}aria-current="page"{% endif %}>
-    Главная
-  </a>
-
-  <a href="/news/"
-     {% if '/news/' in request.path %}aria-current="page"{% endif %}>
-    Новости
-  </a>
-
-  <a href="{% url 'index' %}#hours">
-    Часы работы
-  </a>
-
-  <a href="{% url 'index' %}#contacts">
-    Контакты
-  </a>
-
-</nav>
+  <div class="rsl-header-panel" id="rsl-header-panel">
+   <nav class="rsl-header-nav" aria-label="Основная навигация">
+    <a href="{% url 'index' %}" {% if request.path == '/' %}aria-current="page"{% endif %}>Главная</a>
+    <a href="/news/" {% if '/news/' in request.path %}aria-current="page"{% endif %}>Новости</a>
+    <a href="{% url 'index' %}#hours">Часы работы</a>
+    <a href="{% url 'index' %}#contacts">Контакты</a>
+   </nav>
+   {% if header_search_url %}
+   <form class="rsl-header-search" action="{{ header_search_url }}" method="get" role="search">
+    <label class="rsl-sr-only" for="rsl-header-query">Поиск по сайту</label>
+    <input id="rsl-header-query" type="search" name="q" placeholder="Поиск по сайту" value="{{ request.GET.q|default:'' }}" required maxlength="100">
+    <button type="submit" aria-label="Найти"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 6 6"/></svg></button>
+   </form>
+   {% endif %}
+  </div>
+ </div>
 </header>
+<script>
+(() => {
+ const header = document.querySelector('[data-rsl-header]');
+ if (!header || header.classList.contains('rsl-header-ready')) return;
+ const button = header.querySelector('.rsl-menu-toggle');
+ const panel = header.querySelector('.rsl-header-panel');
+ const mobile = window.matchMedia('(max-width: 900px)');
+ function setOpen(open) {
+  panel.hidden = !open;
+  button.setAttribute('aria-expanded', String(open));
+  button.querySelector('[data-menu-label]').textContent = open ? 'Закрыть' : 'Меню';
+ }
+ header.classList.add('rsl-header-ready');
+ setOpen(!mobile.matches);
+ button.addEventListener('click', () => setOpen(panel.hidden));
+ header.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && mobile.matches && !panel.hidden) {
+   setOpen(false); button.focus();
+  }
+ });
+ panel.addEventListener('click', event => {
+  if (mobile.matches && event.target.closest('a')) { setOpen(false); button.focus(); }
+ });
+ mobile.addEventListener('change', () => {
+  if (mobile.matches && panel.contains(document.activeElement)) button.focus();
+  setOpen(!mobile.matches);
+ });
+})();
+</script>

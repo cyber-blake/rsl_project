@@ -19,6 +19,7 @@ urlpatterns = [
     path("profile/", views.profile_view, name="profile"),
     path("news/wagtail/<int:pk>/add-comment/",views.add_wagtail_comment,name="add_wagtail_comment"),
     path("news/", views.news_archive, name="news_archive"),
+    path("search/", views.news_archive, name="search"),
     path("cms/", include(wagtailadmin_urls)),
     path("", include("wagtail.urls")),
 ]
