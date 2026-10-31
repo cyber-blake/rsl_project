@@ -25,7 +25,12 @@ def get_all_news(request):
         sentences = re.split(r"(?<=[.!?])\s+", text)
         return Truncator(" ".join(sentences[:2])).chars(220)
 
-    pages = NewsPage.objects.live().public()
+    pages = (
+    NewsPage.objects
+    .live()
+    .public()
+    .select_related("main_image")
+)
 
     for page in pages:
         paragraphs = []
