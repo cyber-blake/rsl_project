@@ -1,18 +1,35 @@
 {% load wagtailcore_tags wagtailimages_tags %}
-<section class="home-section home-theme-white">
+<section class="home-section home-news-section home-theme-white">
   <div class="home-shell">
-    <div class="home-heading-row"><h2 class="home-section-heading">{{ value.heading }}</h2><a href="/news/">Все новости →</a></div>
-    <div class="home-card-grid">
+    <div class="home-heading-row home-section-header">
+      <div>
+        <p class="home-section-kicker">Библиотечная жизнь</p>
+        <h2 class="home-section-heading">{{ value.heading }}</h2>
+      </div>
+      <a class="home-text-link" href="/news/">Все новости <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="home-card-grid home-news-grid">
       {% for item in news_items %}
         <article class="home-card home-news-card">
-          {% if item.main_image %}<div class="home-card-media">{% image item.main_image fill-800x500 %}</div>{% endif %}
+          <div class="home-card-media{% if not item.main_image %} home-media-placeholder{% endif %}">
+            <a href="{% pageurl item %}" aria-label="{{ item.title }}">
+              {% if item.main_image %}
+                {% image item.main_image fill-850x560 loading="lazy" %}
+              {% else %}
+                <span aria-hidden="true">Новости</span>
+              {% endif %}
+            </a>
+          </div>
           <div class="home-card-content">
-            {% if item.home_sort_date %}<p class="home-date">{{ item.home_sort_date|date:'d.m.Y' }}</p>{% endif %}
+            {% if item.home_sort_date %}<time class="home-date" datetime="{{ item.home_sort_date|date:'Y-m-d' }}">{{ item.home_sort_date|date:'d.m.Y' }}</time>{% endif %}
             <h3><a href="{% pageurl item %}">{{ item.title }}</a></h3>
-            {% if item.search_description %}<p>{{ item.search_description }}</p>{% endif %}
+            {% if item.search_description %}<p>{{ item.search_description|truncatechars:165 }}</p>{% endif %}
+            <a class="home-card-more" href="{% pageurl item %}">Читать далее <span aria-hidden="true">↗</span></a>
           </div>
         </article>
-      {% empty %}<p>Пока нет опубликованных новостей.</p>{% endfor %}
+      {% empty %}
+        <p class="home-empty-state">Пока нет опубликованных новостей.</p>
+      {% endfor %}
     </div>
   </div>
 </section>

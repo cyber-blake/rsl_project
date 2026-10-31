@@ -4,18 +4,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#edf3e6">
   <title>{{ page.title }} — Библиотека</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="{% static 'hello/css/styles.css' %}">
-  <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'home/css/home.css' %}?v=4">
 </head>
-<body>
+<body class="homepage-layout">
   {% include 'includes/site_header.html' %}
   <main class="rsl-home" id="main-content">
     {% for section in page.sections %}
       {% include_block section %}
     {% empty %}
-      <section class="home-section home-shell"><h1>Главная страница</h1><p>Добавьте секции в редакторе Wagtail.</p></section>
+      <section class="home-section home-theme-cream">
+        <div class="home-shell">
+          <h1>Главная страница</h1>
+          <p>Добавьте секции в редакторе Wagtail.</p>
+        </div>
+      </section>
     {% endfor %}
   </main>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -1,13 +1,22 @@
 {% load wagtailimages_tags %}
 <section class="home-promo home-theme-sage">
   <div class="home-promo-grid home-image-{{ value.image_position }}">
-    <div class="home-promo-media">
-      {% if value.image %}{% image value.image fill-1200x800 %}{% endif %}
+    <div class="home-promo-media{% if not value.image %} home-media-placeholder{% endif %}">
+      {% if value.image %}
+        {% image value.image fill-1300x950 loading="lazy" %}
+      {% else %}
+        <span aria-hidden="true">Библиотека</span>
+      {% endif %}
     </div>
     <div class="home-promo-copy">
+      <p class="home-section-kicker">Больше возможностей</p>
       <h2>{{ value.heading }}</h2>
-      {% if value.description %}<p>{{ value.description }}</p>{% endif %}
-      {% if value.link_label and value.link_url %}<a class="home-pill" href="{{ value.link_url }}">{{ value.link_label }} <span aria-hidden="true">↗</span></a>{% endif %}
+      {% if value.description %}<p class="home-promo-description">{{ value.description }}</p>{% endif %}
+      {% if value.link_label and value.link_url %}
+        <a class="home-pill" href="{{ value.link_url }}">
+          {{ value.link_label }} <span aria-hidden="true">↗</span>
+        </a>
+      {% endif %}
     </div>
   </div>
 </section>

@@ -1,20 +1,27 @@
 {% load wagtailimages_tags %}
-<section class="home-hero home-theme-{{ value.theme }}">
-  <div class="home-shell home-hero-grid">
+<section class="home-hero home-theme-{{ value.theme }}" aria-label="Главный баннер">
+  <div class="home-hero-grid">
     <div class="home-hero-copy">
       {% if value.eyebrow %}<p class="home-eyebrow">{{ value.eyebrow }}</p>{% endif %}
       <h1>{{ value.heading }}</h1>
       {% if value.description %}<p class="home-lead">{{ value.description }}</p>{% endif %}
       {% if value.buttons %}
-        <div class="home-actions">
+        <div class="home-actions home-hero-actions">
           {% for button in value.buttons %}
-            <a class="home-pill" href="{{ button.url }}">{{ button.label }} <span aria-hidden="true">↗</span></a>
+            <a class="home-pill" href="{{ button.url }}">
+              <span class="home-arrow" aria-hidden="true">↗</span>
+              <span>{{ button.label }}</span>
+            </a>
           {% endfor %}
         </div>
       {% endif %}
     </div>
-    {% if value.image %}
-      <div class="home-hero-media">{% image value.image fill-1000x760 %}</div>
-    {% endif %}
+    <div class="home-hero-media{% if not value.image %} home-media-placeholder{% endif %}">
+      {% if value.image %}
+        {% image value.image fill-1400x1050 %}
+      {% else %}
+        <span aria-hidden="true">Библиотека</span>
+      {% endif %}
+    </div>
   </div>
 </section>
