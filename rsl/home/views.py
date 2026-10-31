@@ -12,3 +12,11 @@ def home_preview(request):
     if page is None:
         raise Http404("Опубликованная главная страница ещё не создана")
     return render(request, "home/home_page.html", {"page": page})
+
+def homepage(request):
+    page = HomePage.objects.live().public().first()
+
+    if page is None:
+        return render(request, "index.html")
+
+    return render(request, "home/home_page.html", {"page": page})
